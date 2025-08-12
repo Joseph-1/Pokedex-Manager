@@ -1,0 +1,9 @@
+export type Pokemon = {
+    id: number;
+    name: string;
+    pokedexId: number;
+    size?: number;
+    weight?: number;
+    sex?: string;
+    type: string;
+};
