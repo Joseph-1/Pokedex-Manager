@@ -15,9 +15,9 @@ import { Pokemon } from "./types/Pokemon";
  */
 
 const mockPokemons: Pokemon[] = [
-    { id: 1, name: "Bulbizarre", pokedexId: 1, type: "Plante" },
-    { id: 2, name: "Pikachu", pokedexId: 25, type: "Électrik" },
-    { id: 3, name: "Salamèche", pokedexId: 4, type: "Feu" },
+    { id: 1, name: "Bulbizarre", pokedexId: 1, type: "Plante", imgSrc: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png" },
+    { id: 2, name: "Pikachu", pokedexId: 25, type: "Électrik", imgSrc: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" },
+    { id: 3, name: "Salamèche", pokedexId: 4, type: "Feu", imgSrc: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png" },
 ];
 
 function App() {
