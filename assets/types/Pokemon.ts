@@ -6,4 +6,5 @@ export type Pokemon = {
     weight?: number;
     sex?: string;
     type: string;
+    imgSrc: string;
 };

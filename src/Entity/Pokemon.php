@@ -31,6 +31,9 @@ class Pokemon
     #[ORM\Column(length: 255)]
     private ?string $type = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imgSrc = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -104,6 +107,18 @@ class Pokemon
     public function setType(string $type): static
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getImgSrc(): ?string
+    {
+        return $this->imgSrc;
+    }
+
+    public function setImgSrc(?string $imgSrc): static
+    {
+        $this->imgSrc = $imgSrc;
 
         return $this;
     }

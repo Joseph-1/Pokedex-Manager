@@ -25,6 +25,7 @@ final class PokemonController extends AbstractController
                 'name' => $pokemon->getName(),
                 'pokedexId' => $pokemon->getPokedexId(),
                 'type' => $pokemon->getType(),
+                'imgSrc' => $pokemon->getImgSrc(),
             ];
         }, $pokemons);
 
@@ -48,6 +49,7 @@ final class PokemonController extends AbstractController
             'size' => $pokemon->getSize(),
             'weight' => $pokemon->getWeight(),
             'sex' => $pokemon->getSex(),
+            'imgSrc' => $pokemon->getImgSrc(),
         ];
 
         return $this->json($data);
@@ -66,6 +68,7 @@ final class PokemonController extends AbstractController
         $pokemon->setSize($data['size'] ?? null);
         $pokemon->setWeight($data['weight'] ?? null);
         $pokemon->setSex($data['sex'] ?? null);
+        $pokemon->setImgSrc($data['imgSrc']);
 
         $em->persist($pokemon);
         $em->flush();
@@ -89,6 +92,7 @@ final class PokemonController extends AbstractController
         $pokemon->setSize($data['size'] ?? $pokemon->getSize());
         $pokemon->setWeight($data['weight'] ?? $pokemon->getWeight());
         $pokemon->setSex($data['sex'] ?? $pokemon->getSex());
+        $pokemon->setImgSrc($data['imgSrc'] ?? $pokemon->getImgSrc());
 
         $em->flush();
 

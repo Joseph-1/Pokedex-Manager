@@ -14,6 +14,7 @@ export default function PokemonCard({ pokemon, onClick }: PokemonCardProps) {
         >
             <h2 className="text-xl font-bold text-gray-800">{pokemon.name}</h2>
             <p className="text-gray-500">#{pokemon.pokedexId}</p>
+            <img src={pokemon.imgSrc} alt={pokemon.name} />
             <span className="mt-2 px-3 py-1 rounded-full text-white bg-blue-500">
         {pokemon.type}
       </span>
