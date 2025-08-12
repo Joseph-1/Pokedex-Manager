@@ -3,9 +3,8 @@ import { registerReactControllerComponents } from '@symfony/ux-react';
 registerReactControllerComponents(require.context('./react/controllers', true, /\.(j|t)sx?$/));;
 import './styles/app.scss';
 import React from "react";
+import PokemonList from './js/components/Pokemon/PokemonList';
 import ReactDOM from "react-dom/client";
-import PokemonCard from "./js/components/Pokemon/PokemonCard";
-import { Pokemon } from "./types/Pokemon";
 
 /*
  * Welcome to your app's main JavaScript file!
@@ -14,22 +13,24 @@ import { Pokemon } from "./types/Pokemon";
  * which should already be in your base.html.twig.
  */
 
-const mockPokemons: Pokemon[] = [
-    { id: 1, name: "Bulbizarre", pokedexId: 1, type: "Plante", imgSrc: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png" },
-    { id: 2, name: "Pikachu", pokedexId: 25, type: "Électrik", imgSrc: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" },
-    { id: 3, name: "Salamèche", pokedexId: 4, type: "Feu", imgSrc: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png" },
-];
 
 function App() {
     return (
-        <div className="min-h-screen bg-gray-100 flex items-center justify-center gap-4 flex-wrap p-6">
-            {mockPokemons.map((pokemon) => (
-                <PokemonCard key={pokemon.id} pokemon={pokemon} />
-            ))}
+        <div>
+            <h1>Pokédex</h1>
+            <PokemonList />
         </div>
     );
 }
 
-ReactDOM.createRoot(document.getElementById("root")!).render(<App />);
+// Monter l'application sur la div #root de base.html.twig
+const rootElement = document.getElementById('root');
+if (rootElement) {
+    ReactDOM.createRoot(rootElement).render(
+        <React.StrictMode>
+            <App />
+        </React.StrictMode>
+    );
+}
 
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
