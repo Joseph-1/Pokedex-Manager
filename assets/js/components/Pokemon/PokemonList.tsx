@@ -37,8 +37,8 @@ export default function PokemonList() {
 
     // Sinon, on affiche la liste des Pokemons en appelant PokemonCard pour chacun
     return (
-        <div className="pokemon-list">
-            {pokemons.map(pokemon => (
+        <div className="pokedex-grid">
+            {pokemons.map((pokemon) => (
                 <PokemonCard key={pokemon.id} pokemon={pokemon} />
             ))}
         </div>

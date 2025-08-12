@@ -8,9 +8,10 @@ type Props = {
 export default function PokemonCard({ pokemon }: Props) {
     return (
         <div className="pokemon-card">
-            <img src={pokemon.imgSrc} alt={pokemon.name} />
-            <h3>{pokemon.name}</h3>
-            <p>Type : {pokemon.type}</p>
+            <h2>{pokemon.name}</h2>
+            <h2>#{pokemon.pokedexId}</h2>
+            <img src={pokemon.imgSrc} alt={pokemon.name} className="pokemon-image" />
+            <p>Type :  {pokemon.type}</p>
         </div>
     );
 }
