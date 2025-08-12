@@ -1,0 +1,27 @@
+### GET all pokemons
+GET http://127.0.0.1:8000/api/pokemons
+Accept: application/json
+
+### POST create pokemon
+POST http://127.0.0.1:8000/api/pokemons
+Content-Type: application/json
+
+{
+    "name": "Pikachu",
+    "pokedexId": 25,
+    "type": "Electric",
+    "size": 0.4,
+    "weight": 6,
+    "sex": "Male"
+}
+
+### PUT update pokemon
+PUT http://127.0.0.1:8000/api/pokemons/1
+Content-Type: application/json
+
+{
+    "name": "Raichu"
+}
+
+### DELETE pokemon
+DELETE http://127.0.0.1:8000/api/pokemons/1
