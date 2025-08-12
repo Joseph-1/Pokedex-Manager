@@ -1,5 +1,5 @@
 import React from "react";
-import { Pokemon } from "../types/Pokemon";
+import { Pokemon } from "../../../types/Pokemon";
 
 type PokemonCardProps = {
     pokemon: Pokemon;

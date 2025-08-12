@@ -4,7 +4,7 @@ registerReactControllerComponents(require.context('./react/controllers', true, /
 import './styles/app.scss';
 import React from "react";
 import ReactDOM from "react-dom/client";
-import PokemonCard from "./components/PokemonCard";
+import PokemonCard from "./js/components/Pokemon/PokemonCard";
 import { Pokemon } from "./types/Pokemon";
 
 /*
