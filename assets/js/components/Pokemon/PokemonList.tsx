@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { fetchPokemons } from '../../api/pokemonApi';
 import PokemonCard from './PokemonCard';
+import PokemonModal from './PokemonModal';
 import type { Pokemon } from '../../../types/Pokemon';
 
 
@@ -28,7 +29,6 @@ export default function PokemonList() {
     const closeModal = () => setSelectedPokemon(null);
 
     if (loading) return <p>Chargement...</p>;
-
     if (error) return <p>Erreur : {error}</p>;
 
     // Sinon, on affiche la liste des Pokemons en appelant PokemonCard pour chacun
@@ -43,25 +43,11 @@ export default function PokemonList() {
         </div>
 
         {selectedPokemon && (
-            <div
-                className="pokemon-modal"
-                onClick={closeModal} // Clic sur le fond
-            >
-                <div
-                    className="pokemon-modal-content"
-                    // "(e) => e.stopPropagation()" :  Bloque la propagation du clic
-                    onClick={(e) => e.stopPropagation()}
-                >
-                    <h2>{selectedPokemon.name} #{selectedPokemon.pokedexId}</h2>
-                    <img src={selectedPokemon.imgSrc} alt={selectedPokemon.name} />
-                    <p>Type : {selectedPokemon.type}</p>
-                    <p>Taille : {selectedPokemon.size} m</p>
-                    <p>Poids : {selectedPokemon.weight} kg</p>
-                    <p>Sexe : {selectedPokemon.sex}</p>
-                    <button onClick={closeModal}>Fermer</button>
-                </div>
-            </div>
+            <PokemonModal
+                pokemon={selectedPokemon}
+                onClose={closeModal}
+            />
         )}
     </div>
-);
+    );
 }
