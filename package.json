@@ -28,6 +28,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "@heroicons/react": "^2.2.0",
         "@symfony/ux-react": "^2.29.1"
     }
 }
