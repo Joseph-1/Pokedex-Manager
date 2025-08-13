@@ -34,6 +34,10 @@ class Pokemon
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imgSrc = null;
 
+    #[ORM\ManyToOne(inversedBy: 'pokemon')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Talent $talent = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -119,6 +123,18 @@ class Pokemon
     public function setImgSrc(?string $imgSrc): static
     {
         $this->imgSrc = $imgSrc;
+
+        return $this;
+    }
+
+    public function getTalent(): ?Talent
+    {
+        return $this->talent;
+    }
+
+    public function setTalent(?Talent $talent): static
+    {
+        $this->talent = $talent;
 
         return $this;
     }
