@@ -40,7 +40,7 @@ final class PokemonController extends AbstractController
             return $this->json(['error' => 'Pokemon non trouvé'], 404);
         }
 
-        // On mappe toute les entités vers un tableau propre
+        // On mappe toutes les entités vers un tableau propre
         $data = [
             'id' => $pokemon->getId(),
             'name' => $pokemon->getName(),
