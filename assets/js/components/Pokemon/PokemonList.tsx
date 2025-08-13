@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { fetchPokemons } from '../../api/pokemonApi';
 import PokemonCard from './PokemonCard';
 import PokemonModal from './PokemonModal';
+import SearchBar from './PokemonSearchBar';
 import type { Pokemon } from '../../../types/Pokemon';
 
 
@@ -10,6 +11,11 @@ export default function PokemonList() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
+    const closeModal = () => setSelectedPokemon(null);
+    const [searchTerm, setSearchTerm] = useState('');
+    const filteredPokemons = pokemons.filter(pokemon =>
+        pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     useEffect(() => {
         // Appeler la fonction fetchPokemons qui fait la requête à l’API Symfony
@@ -26,7 +32,6 @@ export default function PokemonList() {
             });
     }, []); // La dépendance vide [] signifie que cet effet ne tourne qu’une fois au montage
 
-    const closeModal = () => setSelectedPokemon(null);
 
     if (loading) return <p>Chargement...</p>;
     if (error) return <p>Erreur : {error}</p>;
@@ -34,8 +39,10 @@ export default function PokemonList() {
     // Sinon, on affiche la liste des Pokemons en appelant PokemonCard pour chacun
     return (
     <div>
+        <SearchBar value={searchTerm} onChange={setSearchTerm} />
+
         <div className="pokedex-grid">
-            {pokemons.map((pokemon) => (
+            {filteredPokemons.map((pokemon) => (
                 <div key={pokemon.id} onClick={() => setSelectedPokemon(pokemon)}>
                     <PokemonCard pokemon={pokemon} />
                 </div>
