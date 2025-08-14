@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Pokemon } from "../../../types/Pokemon";
+import {fetchPokemonDetails} from "../../api/pokemonDetailsApi";
 
 type Props = {
     pokemon: Pokemon;
@@ -7,6 +8,31 @@ type Props = {
 };
 
 export default function PokemonModal({ pokemon, onClose }: Props) {
+    const [pokemonDetails, setPokemonDetails] = useState<Pokemon | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (!pokemon?.id) return;
+
+        setLoading(true);
+        // On indique bien de fetch l'id du pokemon
+        fetchPokemonDetails(pokemon.id)
+            .then(data => {
+                console.log("Données récupérées :", data);
+                setPokemonDetails(data);
+                setLoading(false);
+            })
+            .catch(err => {
+                setError(err.message);
+                setLoading(false)
+            });
+    }, [pokemon]);
+
+    if (loading) return <p>Chargement...</p>;
+    if (error) return <p>Erreur:  {error}</p>
+    if (!pokemonDetails) return null;
+
     return (
         // Overlay sombre
         <div
@@ -18,17 +44,13 @@ export default function PokemonModal({ pokemon, onClose }: Props) {
                 // "(e) => e.stopPropagation()" :  Bloque la propagation du clic
                 onClick={(e) => e.stopPropagation()}
             >
-                <h2 className="text-xl font-bold mb-2 text-center">{pokemon.name}</h2>
-                <h3 className="text-md font-semibold mb-4 text-center">#{pokemon.pokedexId}</h3>
-                <img
-                    src={pokemon.imgSrc}
-                    alt={pokemon.name}
-                    className="mx-auto mb-4 w-40 h-40 object-contain"
-                />
-                <p className="mb-2">Type : {pokemon.type}</p>
-                <p className="mb-2">Size : {pokemon.size}</p>
-                <p className="mb-2">Weight : {pokemon.weight}</p>
-                <p className="mb-2">Sex : {pokemon.sex}</p>
+                <h2 className="text-xl font-bold mb-2 text-center">{pokemonDetails.name}</h2>
+                <h3 className="text-md font-semibold mb-4 text-center">#{pokemonDetails.pokedexId}</h3>
+                <img src={pokemonDetails.imgSrc} alt={pokemonDetails.name}/>
+                <p className="mb-2">Type : {pokemonDetails.type}</p>
+                <p className="mb-2">Size : {pokemonDetails.size} m</p>
+                <p className="mb-2">Weight : {pokemonDetails.weight} kg</p>
+                <p className="mb-2">Sex : {pokemonDetails.sex}</p>
                 <button
                     onClick={onClose}
                     className="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
