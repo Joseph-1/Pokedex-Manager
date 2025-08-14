@@ -1,3 +1,5 @@
+import { Talent } from "./Talent";
+
 export type Pokemon = {
     id: number;
     name: string;
@@ -7,4 +9,5 @@ export type Pokemon = {
     sex?: string;
     type: string;
     imgSrc: string;
+    talent: Talent;
 };

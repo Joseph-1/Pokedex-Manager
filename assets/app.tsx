@@ -17,7 +17,6 @@ import ReactDOM from "react-dom/client";
 function App() {
     return (
         <div>
-            <h1>Pokédex</h1>
             <PokemonList />
         </div>
     );
