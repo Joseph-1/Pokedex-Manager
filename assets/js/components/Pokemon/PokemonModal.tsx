@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Pokemon } from "../../../types/Pokemon";
 import {fetchPokemonDetails} from "../../api/pokemonDetailsApi";
+import { QuestionMarkCircleIcon } from '@heroicons/react/24/solid';
 
 type Props = {
     pokemon: Pokemon;
@@ -51,7 +52,19 @@ export default function PokemonModal({ pokemon, onClose }: Props) {
                 <p className="mb-2">Size : {pokemonDetails.size} m</p>
                 <p className="mb-2">Weight : {pokemonDetails.weight} kg</p>
                 <p className="mb-2">Sex : {pokemonDetails.sex}</p>
-                <p className="mb-2">Talent : {pokemonDetails.talent.name}</p>
+                <div className="mb-2 flex items-center">
+                    <p className="mr-2">Talent : {pokemonDetails.talent.name} </p>
+                    <div className="group relative">
+                        <QuestionMarkCircleIcon className="w-6 h-6 text-gray-800 cursor-pointer" />
+
+                        {/* Tooltip pour affichage de la description du talent au survol de l'icône */}
+                        <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-64 p-2 text-sm
+                        text-white bg-gray-800 rounded-lg opacity-0 scale-95 group-hover:opacity-100
+                        group-hover:scale-100 transition-all duration-200 z-50">
+                            {pokemonDetails.talent.description}
+                        </div>
+                    </div>
+                </div>
                 <button
                     onClick={onClose}
                     className="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
