@@ -50,6 +50,11 @@ final class PokemonController extends AbstractController
             'weight' => $pokemon->getWeight(),
             'sex' => $pokemon->getSex(),
             'imgSrc' => $pokemon->getImgSrc(),
+            // Talent est une clé étrangère dans Pokemon
+            'talent' => [
+                'name' => $pokemon->getTalent()->getName(),
+                'description' => $pokemon->getTalent()->getDescription(),
+            ],
         ];
 
         return $this->json($data);

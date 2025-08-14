@@ -34,7 +34,7 @@ export default function PokemonList() {
 
 
     if (loading) return <p>Chargement...</p>;
-    if (error) return <p>Erreur : {error}</p>;
+    if (error) return <p>Erreur:  {error}</p>;
 
     // Sinon, on affiche la liste des Pokemons en appelant PokemonCard pour chacun
     return (
