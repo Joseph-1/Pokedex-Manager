@@ -19,7 +19,7 @@ export default function PokemonModal({ pokemon, onClose }: Props) {
         // On indique bien de fetch l'id du pokemon
         fetchPokemonDetails(pokemon.id)
             .then(data => {
-                console.log("Données récupérées :", data);
+                console.log(data)
                 setPokemonDetails(data);
                 setLoading(false);
             })
@@ -51,6 +51,7 @@ export default function PokemonModal({ pokemon, onClose }: Props) {
                 <p className="mb-2">Size : {pokemonDetails.size} m</p>
                 <p className="mb-2">Weight : {pokemonDetails.weight} kg</p>
                 <p className="mb-2">Sex : {pokemonDetails.sex}</p>
+                <p className="mb-2">Talent : {pokemonDetails.talent.name}</p>
                 <button
                     onClick={onClose}
                     className="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
