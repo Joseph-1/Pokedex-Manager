@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { fetchTalents } from '../../api/talentApi';
+import type { Talent } from '../../../types/Talent';
 
 export default function PokemonForm() {
     // Déclarer des State pour stocker les valeurs du formulaire
@@ -10,6 +12,25 @@ export default function PokemonForm() {
     const [type, setType] = useState("");
     const [imgSrc, setImgSrc] = useState("");
     const [message, setMessage] = useState("");
+    const [talents, setTalents] = useState<Talent[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        fetchTalents()
+            .then(data => {
+                console.log(data)
+                setTalents(data);
+                setLoading(false);
+           })
+            .catch(err => {
+                setError(err.message);
+                setLoading(false);
+            });
+    }, []);
+
+    if (loading) return <p>Chargement...</p>
+    if (error) return <p>Erreur:  {error}</p>
 
     // Fonction qui s'exécute quand on envoie le formulaire
     // "e: React.FormEvent" permet de créer un événement et rendre "e.preventDefault()" utilisable
