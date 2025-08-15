@@ -4,6 +4,7 @@ namespace App\Controller\Api;
 
 use App\Entity\Pokemon;
 use App\Repository\PokemonRepository;
+use App\Repository\TalentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -61,24 +62,44 @@ final class PokemonController extends AbstractController
     }
 
 
-    #[Route('/api/pokemons', name: 'api_pokemon_create', methods: ['POST'])]
-    public function create(Request $request, EntityManagerInterface $em): JsonResponse
+    #[Route('/api/pokemon/create', name: 'api_pokemon_create', methods: ['POST'])]
+    public function create(Request $request, EntityManagerInterface $em, TalentRepository $talentRepository): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
 
         $pokemon = new Pokemon();
         $pokemon->setName($data['name']);
-        $pokemon->setPokedexId($data['pokedexId']);
+        $pokemon->setPokedexId((int) $data['pokedexId']);
+        $pokemon->setSize((float) $data['size']);
+        $pokemon->setWeight((float) $data['weight']);
+        $pokemon->setSex($data['sex']);
         $pokemon->setType($data['type']);
-        $pokemon->setSize($data['size'] ?? null);
-        $pokemon->setWeight($data['weight'] ?? null);
-        $pokemon->setSex($data['sex'] ?? null);
         $pokemon->setImgSrc($data['imgSrc']);
+
+        // On récupère le talent existant
+        if (!empty($data['talentId'])) {
+            $talent = $talentRepository->find($data['talentId']);
+            if ($talent) {
+                $pokemon->setTalent($talent); // Relation ManyToOne
+            }
+        }
 
         $em->persist($pokemon);
         $em->flush();
 
-        return $this->json(['message' => 'Pokemon created', 'id' => $pokemon->getId()], 201);
+        return $this->json([
+            'message' => 'Pokémon ajouté avec succès',
+            'pokemon' => [
+                'id' => $pokemon->getId(),
+                'name' => $pokemon->getName(),
+                'pokedexId' => $pokemon->getPokedexId(),
+                'size' => $pokemon->getSize(),
+                'weight' => $pokemon->getWeight(),
+                'sex' => $pokemon->getSex(),
+                'type' => $pokemon->getType(),
+                'talent' => $pokemon->getTalent()?->getName(), // renvoie le nom du talent
+            ]
+        ]);
     }
 
 

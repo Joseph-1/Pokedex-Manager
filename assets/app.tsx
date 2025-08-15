@@ -1,28 +1,39 @@
 import './bootstrap.js';
 import { registerReactControllerComponents } from '@symfony/ux-react';
-registerReactControllerComponents(require.context('./react/controllers', true, /\.(j|t)sx?$/));;
+registerReactControllerComponents(require.context('./react/controllers', true, /\.(j|t)sx?$/));
+
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import './styles/app.scss';
 import React from "react";
 import PokemonList from './js/components/Pokemon/PokemonList';
+import Navbar from "./js/components/Navbar";
+import PokemonFormPage from "./js/pages/PokemonFormPage";
 import ReactDOM from "react-dom/client";
 
 /*
  * Welcome to your app's main JavaScript file!
- *
- * This file will be included onto the page via the importmap() Twig function,
- * which should already be in your base.html.twig.
+ * Ce fichier est monté via importmap() dans base.html.twig
  */
-
 
 function App() {
     return (
-        <div>
-            <PokemonList />
-        </div>
+        <Router>
+            {/* Navbar affichée sur toutes les pages */}
+            <Navbar />
+
+            {/* Définition des routes */}
+            <Routes>
+                {/* Page d'accueil */}
+                <Route path="/" element={<PokemonList />} />
+
+                {/* Page d'ajout d'un Pokémon */}
+                <Route path="/ajouter" element={<PokemonFormPage />} />
+            </Routes>
+        </Router>
     );
 }
 
-// Monter l'application sur la div #root de base.html.twig
+// Monter l'application sur la div #root
 const rootElement = document.getElementById('root');
 if (rootElement) {
     ReactDOM.createRoot(rootElement).render(

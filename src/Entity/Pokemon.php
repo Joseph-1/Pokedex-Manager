@@ -35,7 +35,7 @@ class Pokemon
     private ?string $imgSrc = null;
 
     #[ORM\ManyToOne(inversedBy: 'pokemon')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Talent $talent = null;
 
     public function getId(): ?int
