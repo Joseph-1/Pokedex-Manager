@@ -15,11 +15,12 @@ export default function PokemonForm() {
     const [talents, setTalents] = useState<Talent[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [selectedTalent, setSelectedTalent] = useState<number | "">("");
+
 
     useEffect(() => {
         fetchTalents()
             .then(data => {
-                console.log(data)
                 setTalents(data);
                 setLoading(false);
            })
@@ -53,6 +54,7 @@ export default function PokemonForm() {
                     sex,
                     type,
                     imgSrc,
+                    talentId: selectedTalent,
                 }),
             });
 
@@ -69,6 +71,7 @@ export default function PokemonForm() {
                 setSex("");
                 setType("");
                 setImgSrc("");
+                setSelectedTalent("");
             }
         } catch (error) {
             setMessage("Erreur réseau");
@@ -139,6 +142,21 @@ export default function PokemonForm() {
                     onChange={(e) => setImgSrc(e.target.value)}
                     className="border p-2 ml-2"
                 />
+            </div>
+            <div className="mb-2">
+                <label>Talent :</label>
+                <select
+                    value={selectedTalent}
+                    onChange={(e) => setSelectedTalent(Number(e.target.value))}
+                    className="border p-2 ml-2"
+                >
+                    <option value="">-- Choisir un talent --</option>
+                    {talents.map((talent) => (
+                        <option key={talent.id} value={talent.id}>
+                            {talent.name}
+                        </option>
+                    ))}
+                </select>
             </div>
             <button type="submit" className="bg-blue-500 text-white px-4 py-2 mt-2">
                 Ajouter
