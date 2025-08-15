@@ -73,7 +73,7 @@ final class PokemonController extends AbstractController
         $pokemon->setWeight((float) $data['weight']);
         $pokemon->setSex($data['sex']);
         $pokemon->setType($data['type']);
-        // $pokemon->setImgSrc($data['imgSrc']);
+        $pokemon->setImgSrc($data['imgSrc']);
 
         $em->persist($pokemon);
         $em->flush();

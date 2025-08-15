@@ -8,6 +8,7 @@ export default function PokemonForm() {
     const [weight, setWeight] = useState("");
     const [sex, setSex] = useState("");
     const [type, setType] = useState("");
+    const [imgSrc, setImgSrc] = useState("");
     const [message, setMessage] = useState("");
 
     // Fonction qui s'exécute quand on envoie le formulaire
@@ -29,7 +30,9 @@ export default function PokemonForm() {
                     size: parseFloat(size),
                     weight: parseFloat(weight),
                     sex,
-                    type }),
+                    type,
+                    imgSrc,
+                }),
             });
 
             const data = await response.json();
@@ -44,6 +47,7 @@ export default function PokemonForm() {
                 setWeight("");
                 setSex("");
                 setType("");
+                setImgSrc("");
             }
         } catch (error) {
             setMessage("Erreur réseau");
@@ -103,6 +107,15 @@ export default function PokemonForm() {
                     type="text"
                     value={type}
                     onChange={(e) => setType(e.target.value)}
+                    className="border p-2 ml-2"
+                />
+            </div>
+            <div className="mb-2">
+                <label>Image :</label>
+                <input
+                    type="text"
+                    value={imgSrc}
+                    onChange={(e) => setImgSrc(e.target.value)}
                     className="border p-2 ml-2"
                 />
             </div>
