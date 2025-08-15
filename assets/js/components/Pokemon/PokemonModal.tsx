@@ -20,7 +20,6 @@ export default function PokemonModal({ pokemon, onClose }: Props) {
         // On indique bien de fetch l'id du pokemon
         fetchPokemonDetails(pokemon.id)
             .then(data => {
-                console.log(data)
                 setPokemonDetails(data);
                 setLoading(false);
             })
