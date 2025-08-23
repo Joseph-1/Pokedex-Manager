@@ -28,9 +28,6 @@ class Pokemon
     #[ORM\Column(length: 255)]
     private ?string $sex = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $type = null;
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imgSrc = null;
 
@@ -99,18 +96,6 @@ class Pokemon
     public function setSex(string $sex): static
     {
         $this->sex = $sex;
-
-        return $this;
-    }
-
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): static
-    {
-        $this->type = $type;
 
         return $this;
     }
