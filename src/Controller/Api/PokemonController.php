@@ -73,7 +73,7 @@ final class PokemonController extends AbstractController
     {
         $data = json_decode($request->getContent(), true);
 
-// Caster la valeur reçue en int pour ton service
+        // Caster la valeur reçue en int pour mon service
         $pokedexId = $pokemonIdFormatterService->format((int) $data['pokedexId']);
 
         $pokemon = new Pokemon();
