@@ -82,7 +82,6 @@ final class PokemonController extends AbstractController
         $pokemon->setSize((float) $data['size']);
         $pokemon->setWeight((float) $data['weight']);
         $pokemon->setSex($data['sex']);
-        $pokemon->setType($data['type']);
         $pokemon->setImgSrc($data['imgSrc']);
 
         // On récupère le talent existant
@@ -105,7 +104,6 @@ final class PokemonController extends AbstractController
                 'size' => $pokemon->getSize(),
                 'weight' => $pokemon->getWeight(),
                 'sex' => $pokemon->getSex(),
-                'type' => $pokemon->getType(),
                 'talent' => $pokemon->getTalent()?->getName(), // renvoie le nom du talent
             ]
         ]);
