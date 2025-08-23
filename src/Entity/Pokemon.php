@@ -16,8 +16,8 @@ class Pokemon
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column]
-    private ?int $pokedex_id = null;
+    #[ORM\Column(length: 4)]
+    private ?string $pokedex_id = null;
 
     #[ORM\Column]
     private ?float $size = null;
@@ -55,12 +55,12 @@ class Pokemon
         return $this;
     }
 
-    public function getPokedexId(): ?int
+    public function getPokedexId(): ?string
     {
         return $this->pokedex_id;
     }
 
-    public function setPokedexId(int $pokedex_id): static
+    public function setPokedexId(string $pokedex_id): self
     {
         $this->pokedex_id = $pokedex_id;
 

@@ -5,7 +5,7 @@ import type { Talent } from '../../../types/Talent';
 export default function PokemonForm() {
     // Déclarer des State pour stocker les valeurs du formulaire
     const [name, setName] = useState("");
-    const [pokedex_id, setPokedex_id] = useState("");
+    const [pokedexId, setPokedexId] = useState("");
     const [size, setSize] = useState("");
     const [weight, setWeight] = useState("");
     const [sex, setSex] = useState("");
@@ -47,8 +47,8 @@ export default function PokemonForm() {
                 },
                 body: JSON.stringify({
                     name,
+                    pokedexId,
                     // Bien respecter le typage que j'ai précisé dans l'Entity
-                    pokedexId: parseInt(pokedex_id),
                     size: parseFloat(size),
                     weight: parseFloat(weight),
                     sex,
@@ -65,7 +65,7 @@ export default function PokemonForm() {
             } else {
                 setMessage("Pokémon ajouté avec succès !")
                 setName("");
-                setPokedex_id("");
+                setPokedexId("");
                 setSize("");
                 setWeight("");
                 setSex("");
@@ -93,8 +93,8 @@ export default function PokemonForm() {
                 <label>Pokédex Id :</label>
                 <input
                     type="text"
-                    value={pokedex_id}
-                    onChange={(e) => setPokedex_id(e.target.value)}
+                    value={pokedexId}
+                    onChange={(e) => setPokedexId(e.target.value)}
                     className="border p-2 ml-2"
                 />
             </div>

@@ -5,6 +5,7 @@ namespace App\Controller\Api;
 use App\Entity\Pokemon;
 use App\Repository\PokemonRepository;
 use App\Repository\TalentRepository;
+use App\Service\PokemonIdFormatterService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -63,13 +64,21 @@ final class PokemonController extends AbstractController
 
 
     #[Route('/api/pokemon/create', name: 'api_pokemon_create', methods: ['POST'])]
-    public function create(Request $request, EntityManagerInterface $em, TalentRepository $talentRepository): JsonResponse
+    public function create(
+        Request $request,
+        EntityManagerInterface $em,
+        TalentRepository $talentRepository,
+        PokemonIdFormatterService  $pokemonIdFormatterService,
+    ): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
 
+// Caster la valeur reçue en int pour ton service
+        $pokedexId = $pokemonIdFormatterService->format((int) $data['pokedexId']);
+
         $pokemon = new Pokemon();
         $pokemon->setName($data['name']);
-        $pokemon->setPokedexId((int) $data['pokedexId']);
+        $pokemon->setPokedexId($pokedexId); // setter avec la valeur formatée
         $pokemon->setSize((float) $data['size']);
         $pokemon->setWeight((float) $data['weight']);
         $pokemon->setSex($data['sex']);
