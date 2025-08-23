@@ -4,11 +4,20 @@ namespace App\DataFixtures;
 
 use App\Entity\Pokemon;
 use App\Entity\Talent;
+use App\Service\PokemonIdFormatterService;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
 class PokemonFixtures extends Fixture
 {
+    // Pour utiliser le Service dans nos Fixtures, on doit obligatoirement passer par un __construct
+    private PokemonIdFormatterService $formatter;
+
+    public function __construct(PokemonIdFormatterService $formatter)
+    {
+        $this->formatter = $formatter;
+    }
+
     public function load(ObjectManager $manager): void
     {
         $talentsList = [
@@ -81,7 +90,7 @@ class PokemonFixtures extends Fixture
         foreach ($pokemons as [$pokedexId, $name, $type, $imgSrc, $size, $weight, $sex, $talentName]) {
             $pokemon = new Pokemon();
             $pokemon->setName($name);
-            $pokemon->setPokedexId($pokedexId);
+            $pokemon->setPokedexId($this->formatter->format($pokedexId));
             $pokemon->setType($type);
             $pokemon->setImgSrc($imgSrc);
             $pokemon->setSize($size);
