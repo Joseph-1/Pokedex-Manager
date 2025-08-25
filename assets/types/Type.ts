@@ -1,5 +1,5 @@
 export type Type = {
   id: number;
   name: string;
-  style: string;
+  style?: string;
 };
