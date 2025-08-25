@@ -1,4 +1,5 @@
 import { Talent } from "./Talent";
+import { Type } from "./Type";
 
 export type Pokemon = {
     id: number;
@@ -9,5 +10,10 @@ export type Pokemon = {
     sex?: string;
     type: string;
     imgSrc: string;
+
+    // Relation ManyToOne
     talent: Talent;
+
+    // Relation ManyToMany
+    types: Type[];
 };

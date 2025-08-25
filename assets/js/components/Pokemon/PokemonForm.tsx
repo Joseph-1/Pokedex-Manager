@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { fetchTalents } from '../../api/talentApi';
 import type { Talent } from '../../../types/Talent';
+import { fetchTypes } from '../../api/typeApi';
+import type { Type } from '../../../types/Type';
 
 export default function PokemonForm() {
     // Déclarer des State pour stocker les valeurs du formulaire
@@ -9,15 +11,35 @@ export default function PokemonForm() {
     const [size, setSize] = useState("");
     const [weight, setWeight] = useState("");
     const [sex, setSex] = useState("");
-    const [type, setType] = useState("");
     const [imgSrc, setImgSrc] = useState("");
+
     const [message, setMessage] = useState("");
-    const [talents, setTalents] = useState<Talent[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+
+    // Talents
+    const [talents, setTalents] = useState<Talent[]>([]);
     const [selectedTalent, setSelectedTalent] = useState<number | "">("");
 
+    // Types
+    const [types, setTypes] = useState<Type[]>([]);
+    const [selectedTypes, setSelectedTypes] = useState<number[]>([]);
 
+    useEffect(() => {
+        // permet de lancer deux appels en parallèle et attendre que les soient terminés avant de continuer
+        Promise.all([fetchTalents(), fetchTypes()])
+            .then(([talentsData, typesData]) => {
+                setTalents(talentsData);
+                setTypes(typesData);
+                setLoading(false);
+            })
+            .catch(err => {
+                setError(err.message);
+                setLoading(false);
+            });
+    }, []);
+
+/* Avant
     useEffect(() => {
         fetchTalents()
             .then(data => {
@@ -29,6 +51,16 @@ export default function PokemonForm() {
                 setLoading(false);
             });
     }, []);
+ */
+
+    // Toggle pour les checkboxes
+    const handleTypeChange = (id: number) => {
+        if (selectedTypes.includes(id)) {
+            setSelectedTypes(selectedTypes.filter(t => t !== id));
+        } else {
+            setSelectedTypes([...selectedTypes, id]);
+        }
+    };
 
     if (loading) return <p>Chargement...</p>
     if (error) return <p>Erreur:  {error}</p>
@@ -52,9 +84,10 @@ export default function PokemonForm() {
                     size: parseFloat(size),
                     weight: parseFloat(weight),
                     sex,
-                    type,
                     imgSrc,
                     talentId: selectedTalent,
+                    // Envoie d'un tableau d'Id
+                    typeIds: selectedTypes,
                 }),
             });
 
@@ -69,9 +102,9 @@ export default function PokemonForm() {
                 setSize("");
                 setWeight("");
                 setSex("");
-                setType("");
                 setImgSrc("");
                 setSelectedTalent("");
+                setSelectedTypes([]);
             }
         } catch (error) {
             setMessage("Erreur réseau");
@@ -126,15 +159,6 @@ export default function PokemonForm() {
                 />
             </div>
             <div className="mb-2">
-                <label>Type :</label>
-                <input
-                    type="text"
-                    value={type}
-                    onChange={(e) => setType(e.target.value)}
-                    className="border p-2 ml-2"
-                />
-            </div>
-            <div className="mb-2">
                 <label>Image :</label>
                 <input
                     type="text"
@@ -157,6 +181,24 @@ export default function PokemonForm() {
                         </option>
                     ))}
                 </select>
+            </div>
+            {/* Gestion des types avec checkboxes */}
+            <div className="mb-2">
+                <label>Types :</label>
+                <div className="ml-2">
+                    {types.map((type) => (
+                        <div key={type.id} className="flex items-center">
+                            <input
+                                type="checkbox"
+                                id={`type-${type.id}`}
+                                checked={selectedTypes.includes(type.id)}
+                                onChange={() => handleTypeChange(type.id)}
+                                className="mr-2"
+                            />
+                            <label htmlFor={`type-${type.id}`}>{type.name}</label>
+                        </div>
+                    ))}
+                </div>
             </div>
             <button type="submit" className="bg-blue-500 text-white px-4 py-2 mt-2">
                 Ajouter
