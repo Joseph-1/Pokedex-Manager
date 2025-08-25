@@ -5,6 +5,7 @@ namespace App\Controller\Api;
 use App\Entity\Pokemon;
 use App\Repository\PokemonRepository;
 use App\Repository\TalentRepository;
+use App\Repository\TypeRepository;
 use App\Service\PokemonIdFormatterService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -66,6 +67,7 @@ final class PokemonController extends AbstractController
         Request $request,
         EntityManagerInterface $em,
         TalentRepository $talentRepository,
+        TypeRepository $typeRepository,
         PokemonIdFormatterService  $pokemonIdFormatterService,
     ): JsonResponse
     {
@@ -87,6 +89,16 @@ final class PokemonController extends AbstractController
             $talent = $talentRepository->find($data['talentId']);
             if ($talent) {
                 $pokemon->setTalent($talent); // Relation ManyToOne
+            }
+        }
+
+        // On récupère les types
+        if (!empty($data['typeIds'])) {
+            foreach ($data['typeIds'] as $typeId) {
+                $type = $typeRepository->find($typeId);
+                if ($type) {
+                    $pokemon->addType($type);
+                }
             }
         }
 
