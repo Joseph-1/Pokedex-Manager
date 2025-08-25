@@ -28,6 +28,13 @@ final class PokemonController extends AbstractController
                 'name' => $pokemon->getName(),
                 'pokedexId' => $pokemon->getPokedexId(),
                 'imgSrc' => $pokemon->getImgSrc(),
+
+                // Relation ManyToMany
+                'types' => $pokemon->getType()->map(fn($type) => [
+                    'id' => $type->getId(),
+                    'name' => $type->getName(),
+                    'style' => $type->getStyle(),
+                ])->toArray(),
             ];
         }, $pokemons);
 
@@ -51,7 +58,7 @@ final class PokemonController extends AbstractController
             'weight' => $pokemon->getWeight(),
             'sex' => $pokemon->getSex(),
             'imgSrc' => $pokemon->getImgSrc(),
-            // Talent est une clé étrangère dans Pokemon
+            // Talent est une clé étrangère dans Pokemon (ManyToOne)
             'talent' => [
                 'name' => $pokemon->getTalent()->getName(),
                 'description' => $pokemon->getTalent()->getDescription(),
