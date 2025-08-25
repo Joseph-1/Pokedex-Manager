@@ -5,6 +5,7 @@ namespace App\Controller\Api;
 use App\Entity\Pokemon;
 use App\Repository\PokemonRepository;
 use App\Repository\TalentRepository;
+use App\Repository\TypeRepository;
 use App\Service\PokemonIdFormatterService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,8 +27,14 @@ final class PokemonController extends AbstractController
                 'id' => $pokemon->getId(),
                 'name' => $pokemon->getName(),
                 'pokedexId' => $pokemon->getPokedexId(),
-                'type' => $pokemon->getType(),
                 'imgSrc' => $pokemon->getImgSrc(),
+
+                // Relation ManyToMany
+                'types' => $pokemon->getType()->map(fn($type) => [
+                    'id' => $type->getId(),
+                    'name' => $type->getName(),
+                    'style' => $type->getStyle(),
+                ])->toArray(),
             ];
         }, $pokemons);
 
@@ -47,12 +54,11 @@ final class PokemonController extends AbstractController
             'id' => $pokemon->getId(),
             'name' => $pokemon->getName(),
             'pokedexId' => $pokemon->getPokedexId(),
-            'type' => $pokemon->getType(),
             'size' => $pokemon->getSize(),
             'weight' => $pokemon->getWeight(),
             'sex' => $pokemon->getSex(),
             'imgSrc' => $pokemon->getImgSrc(),
-            // Talent est une clé étrangère dans Pokemon
+            // Talent est une clé étrangère dans Pokemon (ManyToOne)
             'talent' => [
                 'name' => $pokemon->getTalent()->getName(),
                 'description' => $pokemon->getTalent()->getDescription(),
@@ -68,6 +74,7 @@ final class PokemonController extends AbstractController
         Request $request,
         EntityManagerInterface $em,
         TalentRepository $talentRepository,
+        TypeRepository $typeRepository,
         PokemonIdFormatterService  $pokemonIdFormatterService,
     ): JsonResponse
     {
@@ -82,7 +89,6 @@ final class PokemonController extends AbstractController
         $pokemon->setSize((float) $data['size']);
         $pokemon->setWeight((float) $data['weight']);
         $pokemon->setSex($data['sex']);
-        $pokemon->setType($data['type']);
         $pokemon->setImgSrc($data['imgSrc']);
 
         // On récupère le talent existant
@@ -90,6 +96,16 @@ final class PokemonController extends AbstractController
             $talent = $talentRepository->find($data['talentId']);
             if ($talent) {
                 $pokemon->setTalent($talent); // Relation ManyToOne
+            }
+        }
+
+        // On récupère les types
+        if (!empty($data['typeIds'])) {
+            foreach ($data['typeIds'] as $typeId) {
+                $type = $typeRepository->find($typeId);
+                if ($type) {
+                    $pokemon->addType($type);
+                }
             }
         }
 
@@ -105,7 +121,6 @@ final class PokemonController extends AbstractController
                 'size' => $pokemon->getSize(),
                 'weight' => $pokemon->getWeight(),
                 'sex' => $pokemon->getSex(),
-                'type' => $pokemon->getType(),
                 'talent' => $pokemon->getTalent()?->getName(), // renvoie le nom du talent
             ]
         ]);
@@ -123,7 +138,6 @@ final class PokemonController extends AbstractController
 
         $pokemon->setName($data['name'] ?? $pokemon->getName());
         $pokemon->setPokedexId($data['pokedexId'] ?? $pokemon->getPokedexId());
-        $pokemon->setType($data['type'] ?? $pokemon->getType());
         $pokemon->setSize($data['size'] ?? $pokemon->getSize());
         $pokemon->setWeight($data['weight'] ?? $pokemon->getWeight());
         $pokemon->setSex($data['sex'] ?? $pokemon->getSex());
