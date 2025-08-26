@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Pokemon } from '../../../types/Pokemon';
+import { typeStyles } from "../../utils/typeStyles";
 
 type Props = {
     pokemon: Pokemon; // le composant attend un objet Pokemon en prop
@@ -11,13 +12,15 @@ export default function PokemonCard({ pokemon }: Props) {
             <h2>{pokemon.name}</h2>
             <h2>#{pokemon.pokedexId}</h2>
             <img src={pokemon.imgSrc} alt={pokemon.name} className="pokemon-image" />
-            <p className="mt-2 font-semibold">Types :</p>
             <div className="flex flex-wrap gap-2 mt-1">
                 {pokemon.types && pokemon.types.length > 0 ? (
                     pokemon.types.map(type => (
-                        <span
+                    <span
                             key={type.id}
-                            className={type.style}
+                            className={
+                                typeStyles[type.name] ||
+                                "bg-gray-400 text-white px-2 py-1 rounded text-sm font-medium"
+                            }
                         >
                             {type.name}
                         </span>
