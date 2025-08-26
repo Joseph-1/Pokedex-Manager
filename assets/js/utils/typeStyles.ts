@@ -14,4 +14,6 @@ export const typeStyles: Record<string, string> = {
     Roche:     "bg-[#b8a038] text-white px-4 py-1 rounded text-sm font-light",
     Spectre:    "bg-[#705898] text-white px-4 py-1 rounded text-sm font-light",
     Dragon:   "bg-[#7038f8] text-white px-4 py-1 rounded text-sm font-light",
+    Fée: "bg-[#ee99ac] text-black px-4 py-1 rounded text-sm font-light",
+    Acier: "bg-[#b8b8d0] text-black px-4 py-1 rounded text-sm font-light",
 };
