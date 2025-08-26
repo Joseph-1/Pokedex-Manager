@@ -17,8 +17,7 @@ export default function PokemonCard({ pokemon }: Props) {
                     pokemon.types.map(type => (
                         <span
                             key={type.id}
-                            className="px-2 py-1 rounded text-white text-sm font-medium"
-                            style={{ backgroundColor: type.style || '#999' }} // Utilise style depuis la BDD ou gris par défaut
+                            className={type.style}
                         >
                             {type.name}
                         </span>
