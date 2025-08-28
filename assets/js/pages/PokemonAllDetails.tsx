@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 // On utilise le hook useParams de react-router-dom pour récupérer dynamiquement les paramètres de l'URL
 import { useParams } from "react-router-dom";
-import { Pokemon } from "../../../types/Pokemon";
-import {fetchPokemonDetails} from "../../api/pokemonDetailsApi";
+import { Pokemon } from "../../types/Pokemon";
+import {fetchPokemonDetails} from "../api/pokemonDetailsApi";
 import {QuestionMarkCircleIcon} from "@heroicons/react/24/solid";
+import {typeStyles} from "../utils/typeStyles";
 
 export default function PokemonAllDetails() {
     // Permet de récupérer le paramètre id de l'URL
@@ -25,6 +26,7 @@ export default function PokemonAllDetails() {
         fetchPokemonDetails(numericId)
             .then(data => {
                 setPokemonDetails(data);
+                console.log(data)
                 setLoading(false);
             })
             .catch(err => {
@@ -41,7 +43,23 @@ export default function PokemonAllDetails() {
             <h1 className="text-3xl font-bold">{pokemonDetails.name}</h1>
             <h3 className="text-md font-semibold mb-4">#{pokemonDetails.pokedexId}</h3>
             <img src={pokemonDetails.imgSrc} alt={pokemonDetails.name}/>
-            <p className="mb-2">Type : {pokemonDetails.type}</p>
+            <div className="flex flex-wrap gap-2 mt-1">
+                {pokemonDetails.types && pokemonDetails.types.length > 0 ? (
+                    pokemonDetails.types.map(type => (
+                        <span
+                            key={type.id}
+                            className={
+                                typeStyles[type.name] ||
+                                "bg-gray-400 text-white px-2 py-1 rounded text-sm font-medium"
+                            }
+                        >
+                            {type.name}
+                        </span>
+                    ))
+                ) : (
+                    <span className="text-gray-400">Aucun</span>
+                )}
+            </div>
             <p className="mb-2">Size : {pokemonDetails.size} m</p>
             <p className="mb-2">Weight : {pokemonDetails.weight} kg</p>
             <p className="mb-2">Sex : {pokemonDetails.sex}</p>

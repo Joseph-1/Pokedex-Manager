@@ -8,7 +8,7 @@ import React from "react";
 import PokemonList from './js/components/Pokemon/PokemonList';
 import Navbar from "./js/components/Navbar";
 import PokemonFormPage from "./js/pages/PokemonFormPage";
-import PokemonAllDetails from "./js/components/Pokemon/PokemonAllDetails";
+import PokemonAllDetails from "./js/pages/PokemonAllDetails";
 import ReactDOM from "react-dom/client";
 
 /*

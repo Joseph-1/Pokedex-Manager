@@ -63,6 +63,11 @@ final class PokemonController extends AbstractController
                 'name' => $pokemon->getTalent()->getName(),
                 'description' => $pokemon->getTalent()->getDescription(),
             ],
+            // Type est une relation ManyToMany avec Pokemon
+            'types' => $pokemon->getType()->map(fn($type) => [
+                'name' => $type->getName(),
+                'style' => $type->getStyle(),
+            ])
         ];
 
         return $this->json($data);
