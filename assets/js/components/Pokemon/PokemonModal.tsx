@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Pokemon } from "../../../types/Pokemon";
 import {fetchPokemonDetails} from "../../api/pokemonDetailsApi";
 import { QuestionMarkCircleIcon } from '@heroicons/react/24/solid';
+// Link composant React qui permet de créer des liens de navigations internes
+import { Link } from "react-router-dom";
 
 type Props = {
     pokemon: Pokemon;
@@ -70,6 +72,13 @@ export default function PokemonModal({ pokemon, onClose }: Props) {
                 >
                     Fermer
                 </button>
+                {/* Création du lien interne avec id comme paramètre */}
+                <Link
+                    to={`/pokemon/${pokemon.id}`}
+                    className="text-blue-500 underline"
+                >
+                    Voir la fiche complète
+                </Link>
             </div>
         </div>
     );

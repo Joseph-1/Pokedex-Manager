@@ -8,6 +8,7 @@ import React from "react";
 import PokemonList from './js/components/Pokemon/PokemonList';
 import Navbar from "./js/components/Navbar";
 import PokemonFormPage from "./js/pages/PokemonFormPage";
+import PokemonAllDetails from "./js/components/Pokemon/PokemonAllDetails";
 import ReactDOM from "react-dom/client";
 
 /*
@@ -28,6 +29,9 @@ function App() {
 
                 {/* Page d'ajout d'un Pokémon */}
                 <Route path="/ajouter" element={<PokemonFormPage />} />
+
+                {/* Page du détail complet d'un Pokémon */}
+                <Route path="/pokemon/:id" element={<PokemonAllDetails />} />
             </Routes>
         </Router>
     );
