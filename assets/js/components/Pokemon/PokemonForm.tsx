@@ -12,6 +12,7 @@ export default function PokemonForm() {
     const [weight, setWeight] = useState("");
     const [sex, setSex] = useState("");
     const [imgSrc, setImgSrc] = useState("");
+    const [description, setDescription] = useState("");
 
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(true);
@@ -85,6 +86,7 @@ export default function PokemonForm() {
                     weight: parseFloat(weight),
                     sex,
                     imgSrc,
+                    description,
                     talentId: selectedTalent,
                     // Envoie d'un tableau d'Id
                     typeIds: selectedTypes,
@@ -103,6 +105,7 @@ export default function PokemonForm() {
                 setWeight("");
                 setSex("");
                 setImgSrc("");
+                setDescription("");
                 setSelectedTalent("");
                 setSelectedTypes([]);
             }
@@ -164,6 +167,15 @@ export default function PokemonForm() {
                     type="text"
                     value={imgSrc}
                     onChange={(e) => setImgSrc(e.target.value)}
+                    className="border p-2 ml-2"
+                />
+            </div>
+            <div className="mb-2">
+                <label>Description :</label>
+                <input
+                    type="text"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
                     className="border p-2 ml-2"
                 />
             </div>
