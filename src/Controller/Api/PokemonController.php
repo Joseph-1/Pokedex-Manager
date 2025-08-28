@@ -54,6 +54,7 @@ final class PokemonController extends AbstractController
             'id' => $pokemon->getId(),
             'name' => $pokemon->getName(),
             'pokedexId' => $pokemon->getPokedexId(),
+            'description' => $pokemon->getDescription(),
             'size' => $pokemon->getSize(),
             'weight' => $pokemon->getWeight(),
             'sex' => $pokemon->getSex(),
@@ -63,6 +64,11 @@ final class PokemonController extends AbstractController
                 'name' => $pokemon->getTalent()->getName(),
                 'description' => $pokemon->getTalent()->getDescription(),
             ],
+            // Type est une relation ManyToMany avec Pokemon
+            'types' => $pokemon->getType()->map(fn($type) => [
+                'name' => $type->getName(),
+                'style' => $type->getStyle(),
+            ])
         ];
 
         return $this->json($data);
@@ -90,6 +96,7 @@ final class PokemonController extends AbstractController
         $pokemon->setWeight((float) $data['weight']);
         $pokemon->setSex($data['sex']);
         $pokemon->setImgSrc($data['imgSrc']);
+        $pokemon->setDescription($data['description']);
 
         // On récupère le talent existant
         if (!empty($data['talentId'])) {
@@ -121,6 +128,7 @@ final class PokemonController extends AbstractController
                 'size' => $pokemon->getSize(),
                 'weight' => $pokemon->getWeight(),
                 'sex' => $pokemon->getSex(),
+                'description' => $pokemon->getDescription(),
                 'talent' => $pokemon->getTalent()?->getName(), // renvoie le nom du talent
             ]
         ]);

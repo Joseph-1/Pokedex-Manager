@@ -10,6 +10,7 @@ export type Pokemon = {
     sex?: string;
     type: string;
     imgSrc: string;
+    description: string;
 
     // Relation ManyToOne
     talent: Talent;
