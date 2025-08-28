@@ -54,6 +54,7 @@ final class PokemonController extends AbstractController
             'id' => $pokemon->getId(),
             'name' => $pokemon->getName(),
             'pokedexId' => $pokemon->getPokedexId(),
+            'description' => $pokemon->getDescription(),
             'size' => $pokemon->getSize(),
             'weight' => $pokemon->getWeight(),
             'sex' => $pokemon->getSex(),

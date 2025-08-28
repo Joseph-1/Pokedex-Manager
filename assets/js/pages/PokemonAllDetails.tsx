@@ -60,6 +60,7 @@ export default function PokemonAllDetails() {
                     <span className="text-gray-400">Aucun</span>
                 )}
             </div>
+            <p className="mb-2">Description : {pokemonDetails.description}</p>
             <p className="mb-2">Size : {pokemonDetails.size} m</p>
             <p className="mb-2">Weight : {pokemonDetails.weight} kg</p>
             <p className="mb-2">Sex : {pokemonDetails.sex}</p>
