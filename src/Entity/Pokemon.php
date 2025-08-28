@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\PokemonRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PokemonRepository::class)]
@@ -42,6 +43,9 @@ class Pokemon
      */
     #[ORM\ManyToMany(targetEntity: Type::class, inversedBy: 'pokemon')]
     private Collection $type;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $description = null;
 
     public function __construct()
     {
@@ -157,6 +161,18 @@ class Pokemon
     public function removeType(Type $type): static
     {
         $this->type->removeElement($type);
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
 
         return $this;
     }
