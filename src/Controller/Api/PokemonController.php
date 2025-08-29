@@ -6,6 +6,7 @@ use App\Entity\Pokemon;
 use App\Repository\PokemonRepository;
 use App\Repository\TalentRepository;
 use App\Repository\TypeRepository;
+use App\Service\PokemonEvolutionService;
 use App\Service\PokemonIdFormatterService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -43,7 +44,7 @@ final class PokemonController extends AbstractController
 
 
     #[Route('/api/pokemons/{id}', name: 'api_pokemon_show', methods: ['GET'])]
-    public function show(Pokemon $pokemon = null): JsonResponse
+    public function show(PokemonEvolutionService $evolutionService, Pokemon $pokemon = null): JsonResponse
     {
         if (!$pokemon) {
             return $this->json(['error' => 'Pokemon non trouvé'], 404);
@@ -68,7 +69,17 @@ final class PokemonController extends AbstractController
             'types' => $pokemon->getType()->map(fn($type) => [
                 'name' => $type->getName(),
                 'style' => $type->getStyle(),
-            ])
+            ]),
+            'evolutions' => array_map(fn($p) => [
+                'id' => $p->getId(),
+                'name' => $p->getName(),
+                'imgSrc' => $p->getImgSrc(),
+            ], $evolutionService->getAllEvolutions($pokemon)),
+            'preEvolutions' => array_map(fn($p) => [
+                'id' => $p->getId(),
+                'name' => $p->getName(),
+                'imgSrc' => $p->getImgSrc(),
+            ], $evolutionService->getAllPreEvolutions($pokemon)),
         ];
 
         return $this->json($data);

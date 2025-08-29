@@ -5,6 +5,7 @@ import { Pokemon } from "../../types/Pokemon";
 import {fetchPokemonDetails} from "../api/pokemonDetailsApi";
 import {QuestionMarkCircleIcon} from "@heroicons/react/24/solid";
 import {typeStyles} from "../utils/typeStyles";
+import PokemonEvolution from "../components/Pokemon/PokemonEvolution";
 
 export default function PokemonAllDetails() {
     // Permet de récupérer le paramètre id de l'URL
@@ -60,6 +61,7 @@ export default function PokemonAllDetails() {
                     <span className="text-gray-400">Aucun</span>
                 )}
             </div>
+            <PokemonEvolution pokemon={pokemonDetails} />
             <p className="mb-2">Description : {pokemonDetails.description}</p>
             <p className="mb-2">Size : {pokemonDetails.size} m</p>
             <p className="mb-2">Weight : {pokemonDetails.weight} kg</p>
