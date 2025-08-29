@@ -47,9 +47,23 @@ class Pokemon
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
+    /**
+     * @var Collection<int, self>
+     */
+    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'preEvolutions')]
+    private Collection $evolutions;
+
+    /**
+     * @var Collection<int, self>
+     */
+    #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'evolutions')]
+    private Collection $preEvolutions;
+
     public function __construct()
     {
         $this->type = new ArrayCollection();
+        $this->evolutions = new ArrayCollection();
+        $this->preEvolutions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -173,6 +187,57 @@ class Pokemon
     public function setDescription(?string $description): static
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getEvolutions(): Collection
+    {
+        return $this->evolutions;
+    }
+
+    public function addEvolution(self $evolution): static
+    {
+        if (!$this->evolutions->contains($evolution)) {
+            $this->evolutions->add($evolution);
+        }
+
+        return $this;
+    }
+
+    public function removeEvolution(self $evolution): static
+    {
+        $this->evolutions->removeElement($evolution);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getPreEvolutions(): Collection
+    {
+        return $this->preEvolutions;
+    }
+
+    public function addPreEvolution(self $preEvolution): static
+    {
+        if (!$this->preEvolutions->contains($preEvolution)) {
+            $this->preEvolutions->add($preEvolution);
+            $preEvolution->addEvolution($this);
+        }
+
+        return $this;
+    }
+
+    public function removePreEvolution(self $preEvolution): static
+    {
+        if ($this->preEvolutions->removeElement($preEvolution)) {
+            $preEvolution->removeEvolution($this);
+        }
 
         return $this;
     }
