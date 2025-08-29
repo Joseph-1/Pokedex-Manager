@@ -17,4 +17,7 @@ export type Pokemon = {
 
     // Relation ManyToMany
     types: Type[];
+
+    evolutions: Pokemon[];
+    preEvolutions: Pokemon[];
 };
