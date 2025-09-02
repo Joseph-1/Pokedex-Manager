@@ -146,7 +146,7 @@ final class PokemonController extends AbstractController
     }
 
 
-    #[Route('/api/pokemons/{id}', name: 'api_pokemon_update', methods: ['PUT'])]
+    #[Route('/api/pokemons/{id}/edit', name: 'api_pokemon_update', methods: ['PATCH'])]
     public function update(Request $request, EntityManagerInterface $em, Pokemon $pokemon = null): JsonResponse
     {
         if (!$pokemon) {
@@ -167,7 +167,6 @@ final class PokemonController extends AbstractController
         $em->flush();
 
         return $this->json([
-            'message' => 'Pokemon updated',
             'name' => $pokemon->getName(),
         ]);
     }

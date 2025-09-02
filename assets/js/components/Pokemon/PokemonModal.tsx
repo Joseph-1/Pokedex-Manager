@@ -79,6 +79,11 @@ export default function PokemonModal({ pokemon, onClose }: Props) {
                 >
                     Voir la fiche complète
                 </Link>
+                <Link to={`/pokemon/${pokemon.id}/edit`}
+                      className="underline"
+                >
+                    Modifier
+                </Link>
             </div>
         </div>
     );

@@ -3,7 +3,7 @@ export type PokemonUpdatePayload = {
 };
 
 export async function updatePokemon(id: number, payload: PokemonUpdatePayload) {
-    const res = await fetch(`/api/pokemons/${id}`, {
+    const res = await fetch(`/api/pokemons/${id}/edit`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
