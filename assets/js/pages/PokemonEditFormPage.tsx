@@ -14,12 +14,10 @@ export default function PokemonEditFormPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    // States pour l’édition du nom
-    const [isEditingName, setIsEditingName] = useState(false);
-    const [nameInput, setNameInput] = useState('');
-
+    // State générique pour l'édition
+    const [editingField, setEditingField] = useState<string | null>(null);
+    const [editValue, setEditValue] = useState<string>('');
     const [message, setMessage] = useState<string | null>(null);
-
 
     useEffect(() => {
         if (!pokemonId || Number.isNaN(pokemonId)) {
@@ -32,7 +30,6 @@ export default function PokemonEditFormPage() {
         fetchPokemonDetails(pokemonId)
             .then((data) => {
                 setPokemon(data);
-                setNameInput(data.name); // initialiser l’input avec le nom actuel
                 setLoading(false);
             })
             .catch((err) => {
@@ -41,119 +38,120 @@ export default function PokemonEditFormPage() {
             });
     }, [pokemonId]);
 
-    // Actions d’édition
-    const startEditName = () => {
-        if (!pokemon) return;
-        setNameInput(pokemon.name);
-        setIsEditingName(true);
+    // Fonctions génériques pour l'édition
+    const startEdit = (field: string, currentValue: any) => {
+        setEditingField(field);
+        setEditValue(String(currentValue)); // initialise l'input avec la valeur actuelle
         setMessage(null);
     };
 
-    const cancelEditName = () => {
-        if (!pokemon) return;
-        setNameInput(pokemon.name);
-        setIsEditingName(false);
+    const cancelEdit = () => {
+        setEditingField(null);
+        setEditValue('');
     };
 
-    const saveName = async () => {
-        if (!pokemon || !nameInput.trim()) return;
+    const saveEdit = async () => {
+        if (!pokemon || !editingField) return;
+
+        const trimmedValue = editValue.trim();
+        if (trimmedValue === '') {
+            setMessage('La valeur ne peut pas être vide');
+            return;
+        }
 
         try {
-            const updated = await updatePokemon(pokemon.id, { name: nameInput.trim() });
-            // on met à jour le state local avec le retour API
-            setPokemon((prev) => (prev ? { ...prev, name: updated.name } : prev));
-            setIsEditingName(false);
-            setMessage('Nom mis à jour avec succès !');
+            const updated = await updatePokemon(pokemon.id, {
+                [editingField]: trimmedValue, // PATCH dynamique en fonction du champ
+            });
+
+            // Mise à jour du state local avec la nouvelle valeur
+            setPokemon((prev) =>
+                prev ? { ...prev, [editingField]: updated[editingField] } : prev
+            );
+
+            setEditingField(null);
+            setMessage(`${editingField} mis à jour avec succès !`);
         } catch (e: any) {
             setMessage(e.message || 'Erreur lors de la mise à jour');
         }
     };
 
-    // Raccourcis clavier sur l’input (Entrée = sauvegarder, Échap = annuler)
-    const onNameKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            saveName();
-        }
-        if (e.key === 'Escape') {
-            e.preventDefault();
-            cancelEditName();
-        }
-    };
-
-    if (loading) return <p className="p-4">Chargement…</p>;
-    if (error) return <p className="p-4 text-red-600">Erreur : {error}</p>;
-    if (!pokemon) return <p className="p-4">Pokémon introuvable</p>;
+    if (loading) return <p>Chargement...</p>;
+    if (error) return <p className="text-red-500">{error}</p>;
+    if (!pokemon) return <p>Pokémon introuvable</p>;
 
     return (
-        <div className="max-w-2xl mx-auto p-4 space-y-6">
-            <div className="flex items-center justify-between">
-                <h1 className="text-xl font-semibold">Édition du Pokémon #{pokemon.pokedexId}</h1>
-                <div className="space-x-2">
-                    <Link to={`/pokemon/${pokemon.id}`} className="underline">
-                        Voir la fiche
-                    </Link>
-                    <button
-                        className="px-3 py-1 rounded border"
-                        onClick={() => navigate(-1)}
+        <div className="space-y-4 max-w-md mx-auto">
+            {/* --- Édition du nom --- */}
+            <div>
+                <label className="font-semibold">Nom :</label>
+                {editingField === 'name' ? (
+                    <div className="flex gap-2 mt-1">
+                        <input
+                            type="text"
+                            value={editValue}
+                            onChange={(e) => setEditValue(e.target.value)}
+                            className="border px-2 py-1 flex-1"
+                        />
+                        <button
+                            onClick={saveEdit}
+                            className="bg-green-500 text-white px-3 py-1 rounded"
+                        >
+                            Enregistrer
+                        </button>
+                        <button
+                            onClick={cancelEdit}
+                            className="bg-gray-300 px-3 py-1 rounded"
+                        >
+                            Annuler
+                        </button>
+                    </div>
+                ) : (
+                    <p
+                        className="cursor-pointer mt-1"
+                        onClick={() => startEdit('name', pokemon.name)}
                     >
-                        ⟵ Retour
-                    </button>
-                </div>
-            </div>
-
-            <div className="flex items-center gap-4">
-                {pokemon.imgSrc && (
-                    <img
-                        src={pokemon.imgSrc}
-                        alt={pokemon.name}
-                        className="w-24 h-24 object-contain"
-                    />
+                        {pokemon.name}
+                    </p>
                 )}
-
-                {/* Bloc Nom : affichage vs édition */}
-                <div className="flex-1">
-                    <label className="block text-sm text-gray-500 mb-1">Nom</label>
-
-                    {!isEditingName ? (
-                        <div className="flex items-center gap-3">
-                            <p className="text-lg font-medium">{pokemon.name}</p>
-                            <button
-                                className="text-sm px-2 py-1 rounded border hover:bg-gray-50"
-                                onClick={startEditName}
-                            >
-                                Modifier
-                            </button>
-                        </div>
-                    ) : (
-                        <div className="flex items-center gap-2">
-                            <input
-                                className="border rounded px-3 py-1 w-64"
-                                value={nameInput}
-                                onChange={(e) => setNameInput(e.target.value)}
-                                onKeyDown={onNameKeyDown}
-                                autoFocus
-                            />
-                            <button
-                                className="px-3 py-1 rounded bg-blue-600 text-white"
-                                onClick={saveName}
-                            >
-                                Enregistrer
-                            </button>
-                            <button
-                                className="px-3 py-1 rounded border"
-                                onClick={cancelEditName}
-                            >
-                                Annuler
-                            </button>
-                        </div>
-                    )}
-                </div>
             </div>
 
-            {message && (
-                <p className="text-sm text-green-700">{message}</p>
-            )}
+            {/* --- Édition du Pokédex ID --- */}
+            <div>
+                <label className="font-semibold">Pokédex ID :</label>
+                {editingField === 'pokedexId' ? (
+                    <div className="flex gap-2 mt-1">
+                        <input
+                            type="number"
+                            value={editValue}
+                            onChange={(e) => setEditValue(e.target.value)}
+                            className="border px-2 py-1 flex-1"
+                        />
+                        <button
+                            onClick={saveEdit}
+                            className="bg-green-500 text-white px-3 py-1 rounded"
+                        >
+                            Enregistrer
+                        </button>
+                        <button
+                            onClick={cancelEdit}
+                            className="bg-gray-300 px-3 py-1 rounded"
+                        >
+                            Annuler
+                        </button>
+                    </div>
+                ) : (
+                    <p
+                        className="cursor-pointer mt-1"
+                        onClick={() => startEdit('pokedexId', pokemon.pokedexId)}
+                    >
+                        {pokemon.pokedexId}
+                    </p>
+                )}
+            </div>
+
+            {/* --- Message de succès ou d'erreur --- */}
+            {message && <p className="text-blue-500">{message}</p>}
         </div>
     );
 }
