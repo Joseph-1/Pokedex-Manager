@@ -146,8 +146,9 @@ final class PokemonController extends AbstractController
     }
 
 
-    #[Route('/api/pokemons/{id}', name: 'api_pokemon_update', methods: ['PUT'])]
-    public function update(Request $request, EntityManagerInterface $em, Pokemon $pokemon = null): JsonResponse
+    #[Route('/api/pokemons/{id}/edit', name: 'api_pokemon_update', methods: ['PATCH'])]
+    public function update(Request $request, EntityManagerInterface $em, Pokemon $pokemon = null,
+                           PokemonIdFormatterService  $pokemonIdFormatterService): JsonResponse
     {
         if (!$pokemon) {
             return $this->json(['error' => 'Pokemon not found'], 404);
@@ -155,16 +156,29 @@ final class PokemonController extends AbstractController
 
         $data = json_decode($request->getContent(), true);
 
-        $pokemon->setName($data['name'] ?? $pokemon->getName());
-        $pokemon->setPokedexId($data['pokedexId'] ?? $pokemon->getPokedexId());
-        $pokemon->setSize($data['size'] ?? $pokemon->getSize());
-        $pokemon->setWeight($data['weight'] ?? $pokemon->getWeight());
-        $pokemon->setSex($data['sex'] ?? $pokemon->getSex());
-        $pokemon->setImgSrc($data['imgSrc'] ?? $pokemon->getImgSrc());
+        // On ne met à jour que les champs présents
+        if (isset($data['name'])) {
+            $name = trim((string) $data['name']);
+            if ($name === '') {
+                return $this->json(['error' => 'Le nom ne peut pas être vide'], 400);
+            }
+            $pokemon->setName($name);
+        }
+
+        if (isset($data['pokedexId'])) {
+            $pokedexId = $pokemonIdFormatterService->format((int) $data['pokedexId']);
+            if ($pokedexId === '') {
+                return $this->json(['error' => 'Le Pokédex Id ne peut pas être vide'], 400);
+            }
+            $pokemon->setPokedexId($pokedexId);
+        }
 
         $em->flush();
 
-        return $this->json(['message' => 'Pokemon updated']);
+        return $this->json([
+            'name' => $pokemon->getName(),
+            'pokedexId' => $pokemon->getPokedexId(),
+        ]);
     }
 
 
