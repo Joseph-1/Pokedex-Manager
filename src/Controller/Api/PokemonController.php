@@ -147,7 +147,8 @@ final class PokemonController extends AbstractController
 
 
     #[Route('/api/pokemons/{id}/edit', name: 'api_pokemon_update', methods: ['PATCH'])]
-    public function update(Request $request, EntityManagerInterface $em, Pokemon $pokemon = null): JsonResponse
+    public function update(Request $request, EntityManagerInterface $em, Pokemon $pokemon = null,
+                           PokemonIdFormatterService  $pokemonIdFormatterService): JsonResponse
     {
         if (!$pokemon) {
             return $this->json(['error' => 'Pokemon not found'], 404);
@@ -164,10 +165,19 @@ final class PokemonController extends AbstractController
             $pokemon->setName($name);
         }
 
+        if (isset($data['pokedexId'])) {
+            $pokedexId = $pokemonIdFormatterService->format((int) $data['pokedexId']);
+            if ($pokedexId === '') {
+                return $this->json(['error' => 'Le Pokédex Id ne peut pas être vide'], 400);
+            }
+            $pokemon->setPokedexId($pokedexId);
+        }
+
         $em->flush();
 
         return $this->json([
             'name' => $pokemon->getName(),
+            'pokedexId' => $pokemon->getPokedexId(),
         ]);
     }
 
