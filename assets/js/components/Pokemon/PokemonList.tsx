@@ -8,14 +8,36 @@ import type { Pokemon } from '../../../types/Pokemon';
 
 export default function PokemonList() {
     const [pokemons, setPokemons] = useState<Pokemon[]>([]);
+
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+
     const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
+
     const closeModal = () => setSelectedPokemon(null);
+
+    // --- Recherche par nom et par type ---
+    const [searchTerm, setSearchTerm] = useState('');
+    const filteredPokemons = pokemons.filter((p) => {
+        const searchLower = searchTerm.toLowerCase();
+
+        // Vérifie si le nom contient la recherche
+        const matchesName = p.name.toLowerCase().includes(searchLower);
+
+        // Vérifie si un type correspond
+        const matchesType = p.types.some((t) =>
+            t.name.toLowerCase().includes(searchLower)
+        );
+
+        return matchesName || matchesType;
+    });
+    /*
+    // --- Recherche par nom uniquement ---
     const [searchTerm, setSearchTerm] = useState('');
     const filteredPokemons = pokemons.filter(pokemon =>
         pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
+     */
 
     useEffect(() => {
         // Appeler la fonction fetchPokemons qui fait la requête à l’API Symfony
