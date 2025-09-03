@@ -39,6 +39,9 @@ export default function PokemonList() {
     );
      */
 
+    // --- Pagination côté front ---
+    const [displayCount, setDisplayCount] = useState(15); // On affiche 15 Pokémon au départ
+
     useEffect(() => {
         // Appeler la fonction fetchPokemons qui fait la requête à l’API Symfony
         fetchPokemons()
@@ -54,6 +57,20 @@ export default function PokemonList() {
             });
     }, []); // La dépendance vide [] signifie que cet effet ne tourne qu’une fois au montage
 
+    // --- Infinite scroll ---
+    useEffect(() => {
+        const handleScroll = () => {
+            const bottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 100;
+            if (bottom && displayCount < filteredPokemons.length) {
+                // charge 15 Pokémon supplémentaires
+                setDisplayCount(prev => prev + 15);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [displayCount, filteredPokemons.length]);
+
 
     if (loading) return <p>Chargement...</p>;
     if (error) return <p>Erreur:  {error}</p>;
@@ -64,7 +81,7 @@ export default function PokemonList() {
         <SearchBar value={searchTerm} onChange={setSearchTerm} />
 
         <div className="pokedex-grid">
-            {filteredPokemons.map((pokemon) => (
+            {filteredPokemons.slice(0, displayCount).map((pokemon) => (
                 <div key={pokemon.id} onClick={() => setSelectedPokemon(pokemon)}>
                     <PokemonCard pokemon={pokemon} />
                 </div>
