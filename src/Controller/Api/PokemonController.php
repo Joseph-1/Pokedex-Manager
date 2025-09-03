@@ -147,8 +147,13 @@ final class PokemonController extends AbstractController
 
 
     #[Route('/api/pokemons/{id}/edit', name: 'api_pokemon_update', methods: ['PATCH'])]
-    public function update(Request $request, EntityManagerInterface $em, Pokemon $pokemon = null,
-                           PokemonIdFormatterService  $pokemonIdFormatterService): JsonResponse
+    public function update(
+        Request $request,
+        EntityManagerInterface $em,
+        Pokemon $pokemon = null,
+        PokemonIdFormatterService  $pokemonIdFormatterService,
+        TalentRepository $talentRepository,
+    ): JsonResponse
     {
         if (!$pokemon) {
             return $this->json(['error' => 'Pokemon not found'], 404);
@@ -173,11 +178,52 @@ final class PokemonController extends AbstractController
             $pokemon->setPokedexId($pokedexId);
         }
 
+        if (isset($data['size'])) {
+            $size = trim((float) $data['size']);
+            if ($size === '') {
+                return $this->json(['error' => 'La taille ne peut pas être vide'], 400);
+            }
+            $pokemon->setSize($size);
+        }
+
+        if (isset($data['weight'])) {
+            $weight = trim((float) $data['weight']);
+            if ($weight === '') {
+                return $this->json(['error' => 'Le poids ne peut pas être vide'], 400);
+            }
+            $pokemon->setWeight($weight);
+        }
+
+        if (isset($data['sex'])) {
+            $sex = trim((string) $data['sex']);
+            if ($sex === '') {
+                return $this->json(['error' => 'Le sexe ne peut pas être vide'], 400);
+            }
+            $pokemon->setSex($sex);
+        }
+
+        if (isset($data['talentId'])) {
+            $talent = $talentRepository->find((int) $data['talentId']);
+            if (!$talent) {
+                return $this->json(['error' => 'Le talent spécifié est invalide'], 400);
+            }
+            $pokemon->setTalent($talent);
+        }
+
+
         $em->flush();
 
         return $this->json([
             'name' => $pokemon->getName(),
             'pokedexId' => $pokemon->getPokedexId(),
+            'size' => $pokemon->getSize(),
+            'weight' => $pokemon->getWeight(),
+            'sex' => $pokemon->getSex(),
+            'talent' => [
+                'id' => $pokemon->getTalent()->getId(),
+                'name' => $pokemon->getTalent()->getName(),
+                'description' => $pokemon->getTalent()->getDescription(),
+            ],
         ]);
     }
 
