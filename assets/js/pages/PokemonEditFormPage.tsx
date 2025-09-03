@@ -150,6 +150,108 @@ export default function PokemonEditFormPage() {
                 )}
             </div>
 
+            {/* --- Édition de la taille --- */}
+            <div>
+                <label className="font-semibold">Taille :</label>
+                {editingField === 'size' ? (
+                    <div className="flex gap-2 mt-1">
+                        <input
+                            type="float"
+                            value={editValue}
+                            onChange={(e) => setEditValue(e.target.value)}
+                            className="border px-2 py-1 flex-1"
+                        />
+                        <button
+                            onClick={saveEdit}
+                            className="bg-green-500 text-white px-3 py-1 rounded"
+                        >
+                            Enregistrer
+                        </button>
+                        <button
+                            onClick={cancelEdit}
+                            className="bg-gray-300 px-3 py-1 rounded"
+                        >
+                            Annuler
+                        </button>
+                    </div>
+                ) : (
+                    <p
+                        className="cursor-pointer mt-1"
+                        onClick={() => startEdit('size', pokemon.size)}
+                    >
+                        {pokemon.size}
+                    </p>
+                )}
+            </div>
+
+            {/* --- Édition du poids --- */}
+            <div>
+                <label className="font-semibold">Poids :</label>
+                {editingField === 'weight' ? (
+                    <div className="flex gap-2 mt-1">
+                        <input
+                            type="float"
+                            value={editValue}
+                            onChange={(e) => setEditValue(e.target.value)}
+                            className="border px-2 py-1 flex-1"
+                        />
+                        <button
+                            onClick={saveEdit}
+                            className="bg-green-500 text-white px-3 py-1 rounded"
+                        >
+                            Enregistrer
+                        </button>
+                        <button
+                            onClick={cancelEdit}
+                            className="bg-gray-300 px-3 py-1 rounded"
+                        >
+                            Annuler
+                        </button>
+                    </div>
+                ) : (
+                    <p
+                        className="cursor-pointer mt-1"
+                        onClick={() => startEdit('weight', pokemon.weight)}
+                    >
+                        {pokemon.weight}
+                    </p>
+                )}
+            </div>
+
+            {/* --- Édition du sexe --- */}
+            <div>
+                <label className="font-semibold">Sexe :</label>
+                {editingField === 'sex' ? (
+                    <div className="flex gap-2 mt-1">
+                        <input
+                            type="string"
+                            value={editValue}
+                            onChange={(e) => setEditValue(e.target.value)}
+                            className="border px-2 py-1 flex-1"
+                        />
+                        <button
+                            onClick={saveEdit}
+                            className="bg-green-500 text-white px-3 py-1 rounded"
+                        >
+                            Enregistrer
+                        </button>
+                        <button
+                            onClick={cancelEdit}
+                            className="bg-gray-300 px-3 py-1 rounded"
+                        >
+                            Annuler
+                        </button>
+                    </div>
+                ) : (
+                    <p
+                        className="cursor-pointer mt-1"
+                        onClick={() => startEdit('sex', pokemon.sex)}
+                    >
+                        {pokemon.sex}
+                    </p>
+                )}
+            </div>
+
             {/* --- Message de succès ou d'erreur --- */}
             {message && <p className="text-blue-500">{message}</p>}
         </div>
