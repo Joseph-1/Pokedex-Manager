@@ -8,7 +8,7 @@ type Props = {
 
 export default function PokemonCard({ pokemon }: Props) {
     return (
-        <div className="pokemon-card bg-gradient-to-br from-white/20 to-white/10 backdrop-blur-md rounded-2xl
+        <div className="pokemon-card bg-white/90 backdrop-blur-sm bg-gradient-to-br from-white/20 to-white/10 rounded-2xl
         shadow-lg p-4 text-center transition-transform transform hover:-translate-y-2 hover:shadow-2xl duration-300
         border border-white/20 relative overflow-hidden">
             <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
