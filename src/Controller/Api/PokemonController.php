@@ -202,6 +202,15 @@ final class PokemonController extends AbstractController
             $pokemon->setSex($sex);
         }
 
+        if (isset($data['talentId'])) {
+            $talent = $talentRepository->find((int) $data['talentId']);
+            if (!$talent) {
+                return $this->json(['error' => 'Le talent spécifié est invalide'], 400);
+            }
+            $pokemon->setTalent($talent);
+        }
+
+
         $em->flush();
 
         return $this->json([
@@ -210,6 +219,11 @@ final class PokemonController extends AbstractController
             'size' => $pokemon->getSize(),
             'weight' => $pokemon->getWeight(),
             'sex' => $pokemon->getSex(),
+            'talent' => [
+                'id' => $pokemon->getTalent()->getId(),
+                'name' => $pokemon->getTalent()->getName(),
+                'description' => $pokemon->getTalent()->getDescription(),
+            ],
         ]);
     }
 
