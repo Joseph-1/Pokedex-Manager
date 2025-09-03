@@ -8,14 +8,14 @@ type Props = {
 
 export default function PokemonCard({ pokemon }: Props) {
     return (
-        <div className="pokemon-card bg-white rounded-xl shadow-md p-4 text-center transition-transform transform
-        hover:-translate-y-1 hover:shadow-lg duration-300">
-            <h2 className="text-lg font-bold text-gray-800">{pokemon.name}</h2>
-            <h3 className="text-sm text-gray-500 mb-2">#{pokemon.pokedexId}</h3>
+        <div className="pokemon-card bg-white/30 backdrop-blur-md rounded-2xl shadow-lg p-4 text-center
+        transition-transform transform hover:-translate-y-2 hover:shadow-2xl duration-300 border border-white/20">
+            <h2 className="text-lg font-bold text-gray-900">{pokemon.name}</h2>
+            <h3 className="text-sm text-gray-700 mb-2">#{pokemon.pokedexId}</h3>
             <img
                 src={pokemon.imgSrc}
                 alt={pokemon.name}
-                className="mx-auto w-24 h-24 mb-2"
+                className="mx-auto w-28 h-28 mb-2"
             />
             <div className="flex flex-wrap justify-center gap-2 mt-1">
                 {pokemon.types && pokemon.types.length > 0 ? (
@@ -24,7 +24,7 @@ export default function PokemonCard({ pokemon }: Props) {
                             key={type.id}
                             className={
                                 typeStyles[type.name] ||
-                                "bg-gray-400 text-white px-2 py-1 rounded-full text-sm font-medium"
+                                "bg-gray-500/50 text-white px-3 py-1 rounded-full text-sm font-medium backdrop-blur-sm"
                             }
                         >
                     {type.name}
@@ -35,6 +35,5 @@ export default function PokemonCard({ pokemon }: Props) {
                 )}
             </div>
         </div>
-
     );
 }
