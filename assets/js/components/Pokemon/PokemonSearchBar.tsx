@@ -19,7 +19,7 @@ export default function SearchBar({ value, onChange }: Props) {
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
                 className="border border-gray-300 rounded-full py-2 pl-10 pr-4 w-full focus:outline-none focus:ring-2
-                focus:ring-blue-500 focus:border-blue-500"
+                focus:ring-indigo-400 hover:border-indigo-400"
             />
         </div>
     );
