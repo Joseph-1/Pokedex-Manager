@@ -42,7 +42,8 @@ export default function PokemonAllDetails() {
     return (
         <div className="p-6 max-w-5xl mx-auto">
             {/* Header Pokémon */}
-            <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg p-6 text-center relative overflow-hidden mb-8 border border-white/20">
+            <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg p-6 text-center relative
+            overflow-hidden mb-8 border border-white/20">
                 {/* Glow décoratif */}
                 <div className="absolute inset-0">
                     <div className="w-40 h-40 bg-white/20 rounded-full blur-3xl absolute -top-10 -left-10"></div>
@@ -66,7 +67,8 @@ export default function PokemonAllDetails() {
                                 key={type.id}
                                 className={
                                     typeStyles[type.name] ||
-                                    "bg-gray-500/50 text-white px-3 py-1 rounded-full text-sm font-medium backdrop-blur-sm"
+                                    "bg-gray-500/50 text-white px-3 py-1 rounded-full text-sm font-medium " +
+                                    "backdrop-blur-sm"
                                 }
                             >
             {type.name}
@@ -83,13 +85,23 @@ export default function PokemonAllDetails() {
                 {/* Infos */}
                 <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow p-6 border border-white/20">
                     <h2 className="text-xl font-semibold mb-4 text-gray-900">Informations</h2>
-                    <p className="mb-3 text-gray-700"><span className="font-medium">Description :</span> {pokemonDetails.description}</p>
-                    <p className="mb-2 text-gray-700"><span className="font-medium">Taille :</span> {pokemonDetails.size} m</p>
-                    <p className="mb-2 text-gray-700"><span className="font-medium">Poids :</span> {pokemonDetails.weight} kg</p>
-                    <p className="mb-2 text-gray-700"><span className="font-medium">Sexe :</span> {pokemonDetails.sex}</p>
+                    <p className="mb-3 text-gray-700">
+                        <span className="font-medium">Description :</span> {pokemonDetails.description}
+                    </p>
+                    <p className="mb-2 text-gray-700">
+                        <span className="font-medium">Taille :</span> {pokemonDetails.size} m
+                    </p>
+                    <p className="mb-2 text-gray-700">
+                        <span className="font-medium">Poids :</span> {pokemonDetails.weight} kg
+                    </p>
+                    <p className="mb-2 text-gray-700">
+                        <span className="font-medium">Sexe :</span> {pokemonDetails.sex}
+                    </p>
 
                     <div className="mb-2 flex items-center">
-                        <p className="mr-2 text-gray-700"><span className="font-medium">Talent :</span> {pokemonDetails.talent.name}</p>
+                        <p className="mr-2 text-gray-700">
+                            <span className="font-medium">Talent :</span> {pokemonDetails.talent.name}
+                        </p>
                         <div className="group relative">
                             <QuestionMarkCircleIcon className="w-6 h-6 text-gray-800 cursor-pointer" />
                             <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-64 p-2 text-sm
