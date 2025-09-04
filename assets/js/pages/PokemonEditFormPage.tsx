@@ -109,34 +109,45 @@ export default function PokemonEditFormPage() {
     if (!pokemon) return <p>Pokémon introuvable</p>;
 
     return (
-        <div className="space-y-4 max-w-md mx-auto">
+        <div className="space-y-6 max-w-md mx-auto p-6 bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg">
+            <div className="max-w-md mx-auto p-4">
+                <h1 className="text-3xl font-bold text-gray-900 mb-2">Modifier le Pokémon</h1>
+                <p className="text-gray-600">
+                    Cliquez sur un champ pour le modifier puis enregistrez vos modifications.
+                </p>
+            </div>
+
             {/* --- Édition du nom --- */}
             <div>
                 <label className="font-semibold">Nom :</label>
                 {editingField === 'name' ? (
-                    <div className="flex gap-2 mt-1">
+                    <div className="mt-1">
                         <input
                             type="text"
                             value={editValue}
                             onChange={(e) => setEditValue(e.target.value)}
-                            className="border px-2 py-1 flex-1"
+                            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2
+                            focus:ring-indigo-400 hover:border-indigo-400"
                         />
-                        <button
-                            onClick={saveEdit}
-                            className="bg-green-500 text-white px-3 py-1 rounded"
-                        >
-                            Enregistrer
-                        </button>
-                        <button
-                            onClick={cancelEdit}
-                            className="bg-gray-300 px-3 py-1 rounded"
-                        >
-                            Annuler
-                        </button>
+                        <div className="flex gap-2 mt-2 justify-end">
+                            <button
+                                onClick={saveEdit}
+                                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
+                            >
+                                Enregistrer
+                            </button>
+                            <button
+                                onClick={cancelEdit}
+                                className="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded"
+                            >
+                                Annuler
+                            </button>
+                        </div>
                     </div>
                 ) : (
                     <p
-                        className="cursor-pointer mt-1"
+                        className="cursor-pointer mt-1 text-gray-800 hover:text-indigo-500 hover:translate-y-[-1px]
+                        transform transition-all duration-200"
                         onClick={() => startEdit('name', pokemon.name)}
                     >
                         {pokemon.name}
@@ -148,29 +159,33 @@ export default function PokemonEditFormPage() {
             <div>
                 <label className="font-semibold">Pokédex ID :</label>
                 {editingField === 'pokedexId' ? (
-                    <div className="flex gap-2 mt-1">
+                    <div className="mt-1">
                         <input
                             type="number"
                             value={editValue}
                             onChange={(e) => setEditValue(e.target.value)}
-                            className="border px-2 py-1 flex-1"
+                            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2
+                            focus:ring-indigo-400 hover:border-indigo-400"
                         />
-                        <button
-                            onClick={saveEdit}
-                            className="bg-green-500 text-white px-3 py-1 rounded"
-                        >
-                            Enregistrer
-                        </button>
-                        <button
-                            onClick={cancelEdit}
-                            className="bg-gray-300 px-3 py-1 rounded"
-                        >
-                            Annuler
-                        </button>
+                        <div className="flex gap-2 mt-2 justify-end">
+                            <button
+                                onClick={saveEdit}
+                                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
+                            >
+                                Enregistrer
+                            </button>
+                            <button
+                                onClick={cancelEdit}
+                                className="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded"
+                            >
+                                Annuler
+                            </button>
+                        </div>
                     </div>
                 ) : (
                     <p
-                        className="cursor-pointer mt-1"
+                        className="cursor-pointer mt-1 text-gray-800 hover:text-indigo-500 hover:translate-y-[-1px]
+                        transform transition-all duration-200"
                         onClick={() => startEdit('pokedexId', pokemon.pokedexId)}
                     >
                         {pokemon.pokedexId}
@@ -182,29 +197,33 @@ export default function PokemonEditFormPage() {
             <div>
                 <label className="font-semibold">Taille :</label>
                 {editingField === 'size' ? (
-                    <div className="flex gap-2 mt-1">
+                    <div className="mt-1">
                         <input
-                            type="float"
+                            type="number"
                             value={editValue}
                             onChange={(e) => setEditValue(e.target.value)}
-                            className="border px-2 py-1 flex-1"
+                            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2
+                            focus:ring-indigo-400 hover:border-indigo-400"
                         />
-                        <button
-                            onClick={saveEdit}
-                            className="bg-green-500 text-white px-3 py-1 rounded"
-                        >
-                            Enregistrer
-                        </button>
-                        <button
-                            onClick={cancelEdit}
-                            className="bg-gray-300 px-3 py-1 rounded"
-                        >
-                            Annuler
-                        </button>
+                        <div className="flex gap-2 mt-2 justify-end">
+                            <button
+                                onClick={saveEdit}
+                                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
+                            >
+                                Enregistrer
+                            </button>
+                            <button
+                                onClick={cancelEdit}
+                                className="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded"
+                            >
+                                Annuler
+                            </button>
+                        </div>
                     </div>
                 ) : (
                     <p
-                        className="cursor-pointer mt-1"
+                        className="cursor-pointer mt-1 text-gray-800 hover:text-indigo-500 hover:translate-y-[-1px]
+                        transform transition-all duration-200"
                         onClick={() => startEdit('size', pokemon.size)}
                     >
                         {pokemon.size}
@@ -216,29 +235,33 @@ export default function PokemonEditFormPage() {
             <div>
                 <label className="font-semibold">Poids :</label>
                 {editingField === 'weight' ? (
-                    <div className="flex gap-2 mt-1">
+                    <div className="mt-1">
                         <input
-                            type="float"
+                            type="number"
                             value={editValue}
                             onChange={(e) => setEditValue(e.target.value)}
-                            className="border px-2 py-1 flex-1"
+                            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2
+                            focus:ring-indigo-400 hover:border-indigo-400"
                         />
-                        <button
-                            onClick={saveEdit}
-                            className="bg-green-500 text-white px-3 py-1 rounded"
-                        >
-                            Enregistrer
-                        </button>
-                        <button
-                            onClick={cancelEdit}
-                            className="bg-gray-300 px-3 py-1 rounded"
-                        >
-                            Annuler
-                        </button>
+                        <div className="flex gap-2 mt-2 justify-end">
+                            <button
+                                onClick={saveEdit}
+                                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
+                            >
+                                Enregistrer
+                            </button>
+                            <button
+                                onClick={cancelEdit}
+                                className="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded"
+                            >
+                                Annuler
+                            </button>
+                        </div>
                     </div>
                 ) : (
                     <p
-                        className="cursor-pointer mt-1"
+                        className="cursor-pointer mt-1 text-gray-800 hover:text-indigo-500 hover:translate-y-[-1px]
+                        transform transition-all duration-200"
                         onClick={() => startEdit('weight', pokemon.weight)}
                     >
                         {pokemon.weight}
@@ -250,29 +273,33 @@ export default function PokemonEditFormPage() {
             <div>
                 <label className="font-semibold">Sexe :</label>
                 {editingField === 'sex' ? (
-                    <div className="flex gap-2 mt-1">
+                    <div className="mt-1">
                         <input
-                            type="string"
+                            type="text"
                             value={editValue}
                             onChange={(e) => setEditValue(e.target.value)}
-                            className="border px-2 py-1 flex-1"
+                            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2
+                            focus:ring-indigo-400 hover:border-indigo-400"
                         />
-                        <button
-                            onClick={saveEdit}
-                            className="bg-green-500 text-white px-3 py-1 rounded"
-                        >
-                            Enregistrer
-                        </button>
-                        <button
-                            onClick={cancelEdit}
-                            className="bg-gray-300 px-3 py-1 rounded"
-                        >
-                            Annuler
-                        </button>
+                        <div className="flex gap-2 mt-2 justify-end">
+                            <button
+                                onClick={saveEdit}
+                                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
+                            >
+                                Enregistrer
+                            </button>
+                            <button
+                                onClick={cancelEdit}
+                                className="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded"
+                            >
+                                Annuler
+                            </button>
+                        </div>
                     </div>
                 ) : (
                     <p
-                        className="cursor-pointer mt-1"
+                        className="cursor-pointer mt-1 text-gray-800 hover:text-indigo-500 hover:translate-y-[-1px]
+                        transform transition-all duration-200"
                         onClick={() => startEdit('sex', pokemon.sex)}
                     >
                         {pokemon.sex}
@@ -284,11 +311,12 @@ export default function PokemonEditFormPage() {
             <div>
                 <label className="font-semibold">Talent :</label>
                 {editingField === "talentId" ? (
-                    <div className="flex gap-2 mt-1">
+                    <div className="mt-1">
                         <select
                             value={editValue}
                             onChange={(e) => setEditValue(e.target.value)}
-                            className="border px-2 py-1 flex-1"
+                            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2
+                            focus:ring-indigo-400 hover:border-indigo-400"
                         >
                             <option value="">-- Sélectionner un talent --</option>
                             {talents.map((t) => (
@@ -297,22 +325,25 @@ export default function PokemonEditFormPage() {
                                 </option>
                             ))}
                         </select>
-                        <button
-                            onClick={saveEdit}
-                            className="bg-green-500 text-white px-3 py-1 rounded"
-                        >
-                            Enregistrer
-                        </button>
-                        <button
-                            onClick={cancelEdit}
-                            className="bg-gray-300 px-3 py-1 rounded"
-                        >
-                            Annuler
-                        </button>
+                        <div className="flex gap-2 mt-2 justify-end">
+                            <button
+                                onClick={saveEdit}
+                                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
+                            >
+                                Enregistrer
+                            </button>
+                            <button
+                                onClick={cancelEdit}
+                                className="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded"
+                            >
+                                Annuler
+                            </button>
+                        </div>
                     </div>
                 ) : (
                     <p
-                        className="cursor-pointer mt-1"
+                        className="cursor-pointer mt-1 text-gray-800 hover:text-indigo-500 hover:translate-y-[-1px]
+                        transform transition-all duration-200"
                         onClick={() =>
                             startEdit("talentId", pokemon.talent?.id || "")
                         }
