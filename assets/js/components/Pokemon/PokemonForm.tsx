@@ -134,7 +134,8 @@ export default function PokemonForm() {
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-300"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2
+                    focus:ring-indigo-300"
                 />
             </div>
 
@@ -145,7 +146,8 @@ export default function PokemonForm() {
                     type="text"
                     value={pokedexId}
                     onChange={(e) => setPokedexId(e.target.value)}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-300"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2
+                    focus:ring-indigo-300"
                 />
             </div>
 
@@ -156,7 +158,8 @@ export default function PokemonForm() {
                     type="text"
                     value={size}
                     onChange={(e) => setSize(e.target.value)}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-300"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2
+                    focus:ring-indigo-300"
                 />
             </div>
 
@@ -167,7 +170,8 @@ export default function PokemonForm() {
                     type="text"
                     value={weight}
                     onChange={(e) => setWeight(e.target.value)}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-300"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2
+                    focus:ring-indigo-300"
                 />
             </div>
 
@@ -178,7 +182,8 @@ export default function PokemonForm() {
                     type="text"
                     value={sex}
                     onChange={(e) => setSex(e.target.value)}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-300"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2
+                    focus:ring-indigo-300"
                 />
             </div>
 
@@ -189,7 +194,8 @@ export default function PokemonForm() {
                     type="text"
                     value={imgSrc}
                     onChange={(e) => setImgSrc(e.target.value)}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-300"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2
+                    focus:ring-indigo-300"
                 />
             </div>
 
@@ -200,7 +206,8 @@ export default function PokemonForm() {
                     type="text"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-300"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2
+                    focus:ring-indigo-300"
                 />
             </div>
 
@@ -210,7 +217,8 @@ export default function PokemonForm() {
                 <select
                     value={selectedTalent}
                     onChange={(e) => setSelectedTalent(Number(e.target.value))}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-300"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2
+                    focus:ring-indigo-300"
                 >
                     <option value="">-- Choisir un talent --</option>
                     {talents.map((talent) => (
@@ -228,7 +236,8 @@ export default function PokemonForm() {
                     {types.map((type) => (
                         <label
                             key={type.id}
-                            className="flex items-center bg-white/50 px-3 py-1 rounded-full cursor-pointer hover:bg-indigo-100 transition"
+                            className="flex items-center bg-white/50 px-3 py-1 rounded-full cursor-pointer
+                            hover:bg-indigo-100 transition"
                         >
                             <input
                                 type="checkbox"
@@ -245,7 +254,8 @@ export default function PokemonForm() {
             {/* Bouton */}
             <button
                 type="submit"
-                className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 rounded-lg transition"
+                className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 rounded-lg
+                transition"
             >
                 Ajouter
             </button>
