@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { fetchPokemons } from '../../api/pokemonApi';
 import PokemonCard from './PokemonCard';
 import PokemonModal from './PokemonModal';
@@ -41,7 +41,12 @@ export default function PokemonList() {
 
     // --- Pagination côté front ---
     const [displayCount, setDisplayCount] = useState(15); // On affiche 15 Pokémon au départ
+    const [loadingMore, setLoadingMore] = useState(false);
 
+    // --- Gestion du badge ---
+    const badgeRef = useRef<HTMLDivElement | null>(null);
+
+    // --- Récupération des Pokémon ---
     useEffect(() => {
         // Appeler la fonction fetchPokemons qui fait la requête à l’API Symfony
         fetchPokemons()
@@ -59,23 +64,32 @@ export default function PokemonList() {
 
     // --- Infinite scroll ---
     useEffect(() => {
-        const handleScroll = () => {
-            const bottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 100;
-            if (bottom && displayCount < filteredPokemons.length) {
-                // charge 15 Pokémon supplémentaires
-                setDisplayCount(prev => prev + 15);
-            }
-        };
+        if (!badgeRef.current) return;
 
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, [displayCount, filteredPokemons.length]);
+        const observer = new IntersectionObserver((entries) => {
+            const entry = entries[0];
+            if (entry.isIntersecting && displayCount < filteredPokemons.length && !loadingMore) {
+                setLoadingMore(true);
+                setTimeout(() => {
+                    setDisplayCount(prev => Math.min(prev + 15, filteredPokemons.length));
+                    setLoadingMore(false);
+                }, 800);
+            }
+        }, {
+            root: null,
+            rootMargin: '0px',
+            threshold: 1.0,
+        });
+
+        observer.observe(badgeRef.current);
+
+        return () => observer.disconnect();
+    }, [displayCount, filteredPokemons.length, loadingMore]);
 
 
     if (loading) return <p>Chargement...</p>;
     if (error) return <p>Erreur:  {error}</p>;
 
-    // Sinon, on affiche la liste des Pokemons en appelant PokemonCard pour chacun
     return (
     <div>
         <SearchBar value={searchTerm} onChange={setSearchTerm} />
@@ -88,6 +102,21 @@ export default function PokemonList() {
             ))}
         </div>
 
+        {/* Badge visible sous les derniers Pokémon affiché */}
+        {displayCount < filteredPokemons.length && (
+            <div className="flex justify-center mt-4">
+                <div
+                    ref={badgeRef}
+                    id="scroll-badge"
+                    className="w-max bg-gradient-to-r from-indigo-200 via-purple-200 to-pink-200 text-gray-800
+                    px-4 py-2 rounded-full shadow-md text-center animate-bounce"
+                >
+                    ⬇️ Défiler pour voir plus de Pokémon ⬇️
+                </div>
+            </div>
+        )}
+
+        {/* Gestion de la modal */}
         {selectedPokemon && (
             <PokemonModal
                 pokemon={selectedPokemon}
