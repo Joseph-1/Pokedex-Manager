@@ -23,7 +23,6 @@ Développée avec **React + Tailwind CSS** (frontend) et **Symfony (API)** côt�
 - TypeScript
 - Tailwind CSS
 - React Router
-- Heroicons
 
 **Backend :**
 - Symfony (API REST créée manuellement)
