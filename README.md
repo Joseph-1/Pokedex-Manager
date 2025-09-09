@@ -1,4 +1,4 @@
-# 🎮 Pokémon Manager
+# 🎮 Pokédex Manager
 
 Pokémon Manager est une application web permettant de **consulter, rechercher et gérer des Pokémon**.
 Développée avec **React + Tailwind CSS** (frontend) et **Symfony (API)** côté backend, elle met en avant une interface moderne, responsive et intuitive.
