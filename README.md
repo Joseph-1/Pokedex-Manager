@@ -30,6 +30,7 @@ Développée avec **React + Tailwind CSS** (frontend) et **Symfony (API)** côt�
 
 **Autres :**
 - MySQL (base de données)
+- Webpack
 
 ---
 
