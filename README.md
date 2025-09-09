@@ -19,7 +19,8 @@ Développée avec **React + Tailwind CSS** (frontend) et **Symfony (API)** côt�
 ## 🛠️ Technologies utilisées
 
 **Frontend :**
-- React
+- React 
+- TypeScript
 - Tailwind CSS
 - React Router
 - Heroicons
